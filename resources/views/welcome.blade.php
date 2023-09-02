@@ -136,5 +136,9 @@
                 </div>
             </div>
         </div>
+        <br>
+        <br>
+        <br>
+        <a href="{{route('usuario-index')}}">Routes</a>
     </body>
 </html>

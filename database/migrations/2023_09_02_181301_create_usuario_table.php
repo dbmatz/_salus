@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('nome', 150);
             $table->string('email', 150);
+            $table->date('data_nascimento');
             $table->date('data_cadastro');
             $table->string('password');
         });
