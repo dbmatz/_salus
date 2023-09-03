@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\DB;
 
 class UsuarioController extends Controller
 {
     public function index()
   {
-    $usuarios = Usuario::orderBy('id')->get();
+    //$usuarios = Usuario::orderBy('id')->get();
+    $usuarios = DB::table('users')->get();
     return view('usuario.index', ['usuarios' => $usuarios]);
   }
 

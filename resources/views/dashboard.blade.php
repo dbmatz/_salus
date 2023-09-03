@@ -14,4 +14,6 @@
             </div>
         </div>
     </div>
+
+    <a href="{{route('usuario-index')}}"></a>
 </x-app-layout>
