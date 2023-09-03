@@ -10,10 +10,10 @@ class UsuarioController extends Controller
     public function index()
   {
     $usuarios = Usuario::orderBy('id')->get();
-    return view('usuario.index', ['usuarios' => $usuarios]);
+    return view('usuario-index', ['usuarios' => $usuarios]);
   }
 
-  public function create()
+  /*public function create()
   {
     return view('usuario-create');
   }
@@ -70,5 +70,5 @@ class UsuarioController extends Controller
     } else {
       return redirect()->route('usuario-index')->withErrors('Não foi possivel deletar o gênero.');
     }
-  }
+  }*/
 }

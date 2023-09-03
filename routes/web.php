@@ -16,8 +16,10 @@ use App\Http\Controllers\UsuarioController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('inicio');
 
-Route::middleware('usuario')->group(function () {
-    Route::get('/index', [UsuarioController::class, 'index'])->name('usuario-index');
+//Route::get('/index', [UsuarioController::class, 'index'])->name('usuario-index');
+
+Route::prefix('usuario')->group(function () {
+    Route::get('/', [UsuarioController::class, 'index'])->name('usuario-index');
 });

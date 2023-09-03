@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('emocao_usuario', function (Blueprint $table) {
             $table->id();
-            $table->foreignID('emocao_id')->references('id')->on('emocao')->onDelete('cascade');
-            $table->foreignID('usuario_id')->references('id')->on('usuario')->onDelete('cascade');
+            $table->foreignID('emocao_id')->references('id')->on('emocaos')->onDelete('cascade');
+            $table->foreignID('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
             $table->date('data_cricao');
         });
     }
