@@ -10,14 +10,15 @@ class UsuarioController extends Controller
     public function index()
   {
     $usuarios = Usuario::orderBy('id')->get();
-    return view('usuario-index', ['usuarios' => $usuarios]);
+    return view('usuario.index', ['usuarios' => $usuarios]);
   }
 
   /*public function create()
   {
-    return view('usuario-create');
-  }
+    return view('usuario.create');
+  }*/
 
+  
   public function store(Request $request)
   {
     $usuario = new Usuario();
@@ -30,6 +31,7 @@ class UsuarioController extends Controller
     }
   }
 
+  /*
   public function edit($id)
   {
     $usuarios = Usuario::where('id', $id)->first();
