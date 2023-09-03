@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parametros', function (Blueprint $table) {
+        Schema::create('remedios', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('usuario_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('nome');
         });
     }
@@ -22,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('parametro');
+        Schema::dropIfExists('remedios');
     }
 };
