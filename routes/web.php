@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmocaoController;
+use App\Http\Controllers\ParametroController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
@@ -33,6 +34,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::prefix('emocao')->group(function () {
     Route::get('/', [EmocaoController::class, 'create'])->name('emocao-create');
     Route::post('/', [EmocaoController::class, 'store'])->name('emocao-store');
+});
+
+Route::prefix('parametro')->group(function() {
+    Route::get('/', [ParametroController::class, 'create'])->name('parametro-create');
+    Route::post('/', [ParametroController::class, 'store'])->name('parametro-store');
 });
 
 //Route::get('/dashboard', [UsuarioController::class, 'index'])->name('dashboard');
