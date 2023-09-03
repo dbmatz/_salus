@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/navbar-fixed/">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <title>@yield('tittle')</title>
 </head>
@@ -41,11 +42,33 @@
                 <a class="dropdown-item" href="#">Relatório</a>
                 <a class="dropdown-item" href="#">Novo parâmetro</a>
                 <a class="dropdown-item" href="#">Novo remédio</a>
+                <a class="dropdown-item" href="#">Sair</a>
               </div>
             </li>
             @endauth
           </ul>
         </div>
       </nav>
+
+      @if ($errors->any())
+  @foreach($errors->all() as $error)
+  <div class="alert alert-danger">
+    {{$error}}
+  </div>
+  @endforeach
+  @endif
+
+  @if (session('status'))
+  <div class="alert alert-success">
+    {{ session('status') }}
+  </div>
+  @endif
+
+      <main class="container">
+        <div class="bg-light p-5 rounded">
+          @yield('content')
+        </div>
+      </main>
+
 </body>
 </html>

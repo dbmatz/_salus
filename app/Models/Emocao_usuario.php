@@ -15,6 +15,8 @@ class Emocao_usuario extends Model
         'id',
         'emocao_id',
         'usuario_id',
+        'descricao',
+        'data_criacao',
     ];
 
     public function usuario(): BelongsTo
