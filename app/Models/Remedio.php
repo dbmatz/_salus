@@ -16,6 +16,8 @@ class Remedio extends Model
         'nome',
     ];
 
+    public $timestamps = false;
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

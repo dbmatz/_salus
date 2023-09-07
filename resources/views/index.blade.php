@@ -46,6 +46,38 @@
     <thead class="thead-dark">
       <tr>
         <th scope="col">id</th>
+        <th scope="col">nome</th>
+        <th scope="col">usuario_id</th>
+        <th scope="col">editar</th>
+        <th scope="col">excluir</th>
+      </tr>
+    </thead>
+    <tbody>
+        @foreach ($remedios as $remedio)
+      <tr>
+        <th scope="row">{{$remedio->id}}</th>
+        <td>{{$remedio->nome}}</td>
+        <td>{{$remedio->usuario_id}}</td>
+        <td><a href="{{route('remedio-edit', ['id'=>$remedio->id])}}">editar</a></td>
+        <td>
+        <form action="{{ route('remedio-destroy',['id'=>$remedio->id]) }}" method="POST">
+            @csrf
+            @method('delete')
+            <button type="submit">excluir</button>
+        </form>    
+        </td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
+
+  <br>
+  <br>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">id</th>
         <th scope="col">imagem</th>
         <th scope="col">nome</th>
       </tr>
@@ -61,4 +93,5 @@
     </tbody>
   </table>
 
+  
 @endsection

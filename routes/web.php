@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioController;
 use App\Models\Parametro;
 use App\Models\Emocao;
+use App\Models\Remedio;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,9 @@ Route::get('/dashboard', function () {
 
     $emocoes = Emocao::all();
 
-    return view('index', ['parametros' => $parametros, 'emocoes' => $emocoes]);
+    $remedios = Remedio::all();
+
+    return view('index', ['parametros' => $parametros, 'emocoes' => $emocoes, 'remedios' => $remedios]);
 })->middleware(['auth', 'verified'])->name('index');
 
 Route::middleware(['auth', 'verified'])->group(function () {

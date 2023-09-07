@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Parametro;
 use Auth;
+use Exception;
 
 class ParametroController extends Controller
 {
