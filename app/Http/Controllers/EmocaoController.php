@@ -36,4 +36,5 @@ class EmocaoController extends Controller
     }
 
   }
+  
 }
