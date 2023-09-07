@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Emocao;
+use Auth;
 
 class EmocaoController extends Controller
 {
@@ -36,5 +37,5 @@ class EmocaoController extends Controller
     }
 
   }
-  
+
 }

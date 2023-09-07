@@ -5,10 +5,11 @@ use App\Http\Controllers\ParametroController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RemedioController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\UsuarioEmocaoController;
 use App\Models\Parametro;
 use App\Models\Emocao;
 use App\Models\Remedio;
+use App\Models\UsuarioEmocao;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,12 @@ Route::get('/dashboard', function () {
 
     $remedios = Remedio::all();
 
-    return view('index', ['parametros' => $parametros, 'emocoes' => $emocoes, 'remedios' => $remedios]);
+    $usuario_emocaos = UsuarioEmocao::all();
+
+    return view('index', ['parametros' => $parametros, 
+    'emocoes' => $emocoes, 
+    'remedios' => $remedios,
+    'usuario_emocaos' => $usuario_emocaos]);
 })->middleware(['auth', 'verified'])->name('index');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -44,6 +50,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::prefix('emocao')->group(function () {
     Route::get('/', [EmocaoController::class, 'create'])->name('emocao-create');
     Route::post('/', [EmocaoController::class, 'store'])->name('emocao-store');
+});
+
+Route::prefix('dia')->group(function(){
+    Route::get('/', [UsuarioEmocaoController::class, 'create'])->name('dia-create');
+    Route::post('/', [UsuarioEmocaoController::class, 'store'])->name('dia-store');
+    Route::get('/{id}', [UsuarioEmocaoController::class, 'edit'])->name('dia-edit');
+    Route::put('/{id}', [UsuarioEmocaoController::class, 'update'])->name('dia-update');
+    Route::delete('/{id}', [UsuarioEmocaoController::class, 'destroy'])->name('dia-destroy');
 });
 
 Route::prefix('parametro')->group(function() {

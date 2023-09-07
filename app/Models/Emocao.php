@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Emocao_usuario;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Usuario;
+use App\Models\Usuario_emocao;
 
 class Emocao extends Model
 {
@@ -18,8 +20,8 @@ class Emocao extends Model
 
     public $timestamps = false;
 
-    public function emocao_usuario()
+    public function usuario_emocaos(): HasMany
     {
-        return $this->HasMany(Emocao_usuario::class);
+        return $this->hasMany(Usuario_emocao::class);
     }
 }

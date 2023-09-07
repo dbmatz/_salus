@@ -10,6 +10,8 @@
 
 <a href="{{route('remedio-create')}}">criar remedio</a>
 
+<a href="{{route('dia-create')}}">entrada dia</a>
+
 <table class="table">
     <thead class="thead-dark">
       <tr>
@@ -93,5 +95,40 @@
     </tbody>
   </table>
 
+  <br>
+  <br>
+
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">id</th>
+        <th scope="col">Dia</th>
+        <th scope="col">usuario</th>
+        <th scope="col">emocao</th>
+        <th scope="col">descricao</th>
+        <th scope="col">editar</th>
+        <th scope="col">excluir</th>
+      </tr>
+    </thead>
+    <tbody>
+        @foreach ($usuario_emocaos as $usuario_emocao)
+      <tr>
+        <th scope="row">{{$usuario_emocao->id}}</th>
+        <th>{{$usuario_emocao->created_at}}</th>
+        <td>{{$usuario_emocao->usuario->name}}</td>
+        <td>{{$usuario_emocao->emocao->nome}}</td>
+        <td>{{$usuario_emocao->descricao}}</td>
+        <td><a href="{{route('dia-edit', ['id'=>$usuario_emocao->id])}}">editar</a></td>
+        <td>
+        <form action="{{ route('dia-destroy',['id'=>$usuario_emocao->id]) }}" method="POST">
+            @csrf
+            @method('delete')
+            <button type="submit">excluir</button>
+        </form>    
+        </td>
+      </tr>
+      @endforeach
+    </tbody>
+  </table>
   
 @endsection
