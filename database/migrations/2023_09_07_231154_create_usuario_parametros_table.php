@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('usuario_emocaos', function (Blueprint $table) {
+        Schema::create('usuario_parametros', function (Blueprint $table) {
             $table->id();
             $table->foreignId('usuario_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreignId('emocao_id')->references('id')->on('emocaos')->onDelete('cascade');
-            $table->string('descricao')->nullable();
+            $table->foreignId('parametro_id')->references('id')->on('parametros')->onDelete('cascade');
+            $table->integer('avaliacao')->default(0);
             $table->date('dia');
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('usuario_emocao');
+        Schema::dropIfExists('usuario_parametros');
     }
 };

@@ -51,11 +51,11 @@ class RemedioController extends Controller
     }
 
     public function destroy($id)
-  {
-    if (Remedio::where('id', $id)->delete()) {
-      return redirect()->route('index')->with('status', 'remedio deletado!');
-    } else {
-      return redirect()->route('index')->withErrors('Não foi possivel deletar o remedio.');
+    {
+        if (Remedio::where('id', $id)->delete()) {
+            return redirect()->route('index')->with('status', 'remedio deletado!');
+        } else {
+            return redirect()->route('index')->withErrors('Não foi possivel deletar o remedio.');
+        }
     }
-  }
 }

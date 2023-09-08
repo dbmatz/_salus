@@ -51,11 +51,11 @@ class ParametroController extends Controller
     }
 
     public function destroy($id)
-  {
-    if (Parametro::where('id', $id)->delete()) {
-      return redirect()->route('index')->with('status', 'Parametro deletado!');
-    } else {
-      return redirect()->route('index')->withErrors('Não foi possivel deletar o Parametro.');
+    {
+        if (Parametro::where('id', $id)->delete()) {
+            return redirect()->route('index')->with('status', 'Parametro deletado!');
+        } else {
+            return redirect()->route('index')->withErrors('Não foi possivel deletar o Parametro.');
+        }
     }
-  }
 }

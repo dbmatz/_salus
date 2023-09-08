@@ -4,12 +4,15 @@ use App\Http\Controllers\EmocaoController;
 use App\Http\Controllers\ParametroController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RemedioController;
+use App\Http\Controllers\UsuarioParametoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioEmocaoController;
+use App\Http\Controllers\DiaController;
 use App\Models\Parametro;
 use App\Models\Emocao;
 use App\Models\Remedio;
 use App\Models\UsuarioEmocao;
+use App\Models\UsuarioParametro;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,10 +38,13 @@ Route::get('/dashboard', function () {
 
     $usuario_emocaos = UsuarioEmocao::all();
 
+    $usuario_parametros = UsuarioParametro::all();
+
     return view('index', ['parametros' => $parametros, 
     'emocoes' => $emocoes, 
     'remedios' => $remedios,
-    'usuario_emocaos' => $usuario_emocaos]);
+    'usuario_emocaos' => $usuario_emocaos,
+    'usuario_parametros' => $usuario_parametros]);
 })->middleware(['auth', 'verified'])->name('index');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -53,11 +59,23 @@ Route::prefix('emocao')->group(function () {
 });
 
 Route::prefix('dia')->group(function(){
-    Route::get('/', [UsuarioEmocaoController::class, 'create'])->name('dia-create');
-    Route::post('/', [UsuarioEmocaoController::class, 'store'])->name('dia-store');
-    Route::get('/{id}', [UsuarioEmocaoController::class, 'edit'])->name('dia-edit');
+    Route::get('/', [DiaController::class, 'create'])->name('dia-create');
+    Route::post('/', [DiaController::class, 'store'])->name('dia-store');
+    Route::get('/{id}', [DiaController::class, 'edit'])->name('dia-edit');
     Route::put('/{id}', [UsuarioEmocaoController::class, 'update'])->name('dia-update');
     Route::delete('/{id}', [UsuarioEmocaoController::class, 'destroy'])->name('dia-destroy');
+});
+
+/*Route::prefix('usurem')->group(function(){
+    Route::get('/{id}', [UsuarioEmocaoController::class, 'edit'])->name('usurem-edit');
+    Route::put('/{id}', [UsuarioEmocaoController::class, 'update'])->name('usurem-update');
+    Route::delete('/{id}', [UsuarioEmocaoController::class, 'destroy'])->name('usurem-destroy');
+});*/
+
+Route::prefix('usupar')->group(function(){
+    Route::get('/{id}', [UsuarioParametoController::class, 'edit'])->name('usupar-edit');
+    Route::put('/{id}', [UsuarioParametoController::class, 'update'])->name('usupar-update');
+    Route::delete('/{id}', [UsuarioParametoController::class, 'destroy'])->name('usupar-destroy');
 });
 
 Route::prefix('parametro')->group(function() {
