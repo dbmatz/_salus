@@ -23,7 +23,7 @@ class UsuarioEmocaoController extends Controller
       $usuario_emocao->save();
       return 0;
     } catch (Exception $e) {
-      //dd($e->getMessage());
+      dd($e->getMessage());
       return 1;
     }
 

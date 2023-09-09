@@ -151,30 +151,30 @@
     <br>
     <br>
 
-    <h3>usuario_parametro</h3>
+    <h3>usuario_remedio</h3>
     <table class="table">
         <thead class="thead-dark">
             <tr>
                 <th scope="col">id</th>
                 <th scope="col">Dia</th>
                 <th scope="col">usuario</th>
-                <th scope="col">parametro</th>
-                <th scope="col">avaliacao</th>
+                <th scope="col">remedio</th>
+                <th scope="col">status</th>
                 <th scope="col">editar</th>
                 <th scope="col">excluir</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($usuario_parametros as $usuario_parametro)
+            @foreach ($usuario_remedios as $usuario_remedio)
                 <tr>
-                    <th scope="row">{{ $usuario_parametro->id }}</th>
-                    <th>{{ $usuario_parametro->dia }}</th>
-                    <td>{{ $usuario_parametro->usuario->name }}</td>
-                    <td>{{ $usuario_parametro->parametro->nome }}</td>
-                    <td>{{ $usuario_parametro->avaliacao }}</td>
-                    <td><a href="{{ route('usupar-edit', ['id' => $usuario_parametro->id]) }}">editar</a></td>
+                    <th scope="row">{{ $usuario_remedio->id }}</th>
+                    <th>{{ $usuario_remedio->dia }}</th>
+                    <td>{{ $usuario_remedio->usuario->name }}</td>
+                    <td>{{ $usuario_remedio->remedio->nome }}</td>
+                    <td>{{ $usuario_remedio->status }}</td>
+                    <td><a href="{{ route('usurem-edit', ['id' => $usuario_remedio->id]) }}">editar</a></td>
                     <td>
-                        <form action="{{ route('usupar-destroy', ['id' => $usuario_parametro->id]) }}" method="POST">
+                        <form action="{{ route('usurem-destroy', ['id' => $usuario_remedio->id]) }}" method="POST">
                             @csrf
                             @method('delete')
                             <button type="submit">excluir</button>

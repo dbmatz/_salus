@@ -49,6 +49,10 @@
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             {{ Auth::user()->name }}
                         </a>
+                        <form action="/logout" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item" aria-current="page">Sair</button>
+                          </form>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="{{ route('profile.edit') }}">Conta</a>
                             <a class="dropdown-item" href="#">Relatório</a>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('emocaos', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
+            $table->string('nome')->unique();
             $table->string('imagem');
         });
     }

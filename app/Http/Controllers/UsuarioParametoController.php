@@ -13,17 +13,17 @@ class UsuarioParametoController extends Controller
 {
   public function store(Request $request)
   {
-    $data = array();
+    $data = [];
     $array = $request->avaliacao;
     $array_keys = array_keys($array);
 
     for ($i = 0; $i < count($array); ++$i) {
-      $param = array(
+      $param = [
         'usuario_id' => Auth::user()->id,
         'parametro_id' => $array_keys[$i],
         'avaliacao' => $array[$array_keys[$i]],
         'dia' => date('Y-m-d'),
-      );
+      ];
 
       $data[$i] = $param;
     }
@@ -35,7 +35,7 @@ class UsuarioParametoController extends Controller
       //dd($e->getMessage());
       return 1;
     }
-
+    
   }
 
   public function edit($id)

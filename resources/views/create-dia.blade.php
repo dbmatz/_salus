@@ -46,6 +46,15 @@
                     <input type="radio" name="avaliacao[{{$parametro->id}}]" value="10">
                     <label for="avaliacao">10</label>
                 @endforeach
+                <br>
+                @foreach ($remedios as $remedio)
+                <input type="number" name="parametro_id" value="{{ $remedio->id }}" hidden>
+                <label for="">{{$remedio->nome}}</label>
+                <label for="">Tomou</label>
+                <input type="radio" name="status[{{$remedio->id}}]" value="1">
+                <label for="">Não tomou</label>
+                <input type="radio" name="status[{{$remedio->id}}]" value="0">                    
+                @endforeach
             </div>
             <br>
             <button class="btn btn-primary" type="submit" name="button">Salvar</button>
