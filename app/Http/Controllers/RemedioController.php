@@ -22,9 +22,13 @@ class RemedioController extends Controller
 
         try {
             $remedio->save();
-            return redirect()->route('index')->with('status', 'Remedio criada!');
+            return redirect()
+                ->route('index')
+                ->with('status', 'Remedio criada!');
         } catch (Exception $e) {
-            return redirect()->route('index')->withErrors('erro. ' . $e);
+            return redirect()
+                ->route('index')
+                ->withErrors('erro. ' . $e);
         }
     }
 
@@ -34,7 +38,9 @@ class RemedioController extends Controller
         if (!empty($remedio)) {
             return view('edit-remedio', ['remedio' => $remedio]);
         } else {
-            return redirect()->route('index')->withErrors('Não foi possivel encontrar o remedio.');
+            return redirect()
+                ->route('index')
+                ->withErrors('Não foi possivel encontrar o remedio.');
         }
     }
 
@@ -43,19 +49,29 @@ class RemedioController extends Controller
         $data = [
             'nome' => $request->nome,
         ];
-        if (Remedio::where('id', $id)->update($data)) {
-            return redirect()->route('index')->with('status', 'remedio alterado!');
-        } else {
-            return redirect()->route('index')->withErrors('Não foi possivel alterar o remedio.');
+        try {
+            Remedio::where('id', $id)->update($data);
+            return redirect()
+                ->route('index')
+                ->with('status', 'remedio alterado!');
+        } catch (Exception $e) {
+            return redirect()
+                ->route('index')
+                ->withErrors('Não foi possivel alterar o remedio.');
         }
     }
 
     public function destroy($id)
     {
-        if (Remedio::where('id', $id)->delete()) {
-            return redirect()->route('index')->with('status', 'remedio deletado!');
-        } else {
-            return redirect()->route('index')->withErrors('Não foi possivel deletar o remedio.');
+        try {
+            Remedio::where('id', $id)->delete();
+            return redirect()
+                ->route('index')
+                ->with('status', 'remedio deletado!');
+        } catch (Exception $e) {
+            return redirect()
+                ->route('index')
+                ->withErrors('Não foi possivel deletar o remedio.');
         }
     }
 }

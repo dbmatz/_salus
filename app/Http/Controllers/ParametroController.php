@@ -22,9 +22,13 @@ class ParametroController extends Controller
 
         try {
             $parametro->save();
-            return redirect()->route('index')->with('status', 'parametro criada!');
+            return redirect()
+                ->route('index')
+                ->with('status', 'parametro criada!');
         } catch (Exception $e) {
-            return redirect()->route('index')->withErrors('erro. ' . $e);
+            return redirect()
+                ->route('index')
+                ->withErrors('erro. ' . $e);
         }
     }
 
@@ -34,7 +38,9 @@ class ParametroController extends Controller
         if (!empty($parametro)) {
             return view('edit-parametro', ['parametro' => $parametro]);
         } else {
-            return redirect()->route('index')->withErrors('Não foi possivel encontrar o parametros.');
+            return redirect()
+                ->route('index')
+                ->withErrors('Não foi possivel encontrar o parametros.');
         }
     }
 
@@ -43,19 +49,30 @@ class ParametroController extends Controller
         $data = [
             'nome' => $request->nome,
         ];
-        if (Parametro::where('id', $id)->update($data)) {
-            return redirect()->route('index')->with('status', 'Parametro alterado!');
-        } else {
-            return redirect()->route('index')->withErrors('Não foi possivel alterar o parametro.');
+
+        try {
+            Parametro::where('id', $id)->update($data);
+            return redirect()
+                ->route('index')
+                ->with('status', 'Parametro alterado!');
+        } catch (Exception $e) {
+            return redirect()
+                ->route('index')
+                ->withErrors('Não foi possivel alterar o parametro.');
         }
     }
 
     public function destroy($id)
     {
-        if (Parametro::where('id', $id)->delete()) {
-            return redirect()->route('index')->with('status', 'Parametro deletado!');
-        } else {
-            return redirect()->route('index')->withErrors('Não foi possivel deletar o Parametro.');
+        try {
+            Parametro::where('id', $id)->delete();
+            return redirect()
+                ->route('index')
+                ->with('status', 'Parametro deletado!');
+        } catch (Exception $e) {
+            return redirect()
+                ->route('index')
+                ->withErrors('Não foi possivel deletar o Parametro.');
         }
     }
 }

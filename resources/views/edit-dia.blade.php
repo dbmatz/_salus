@@ -13,7 +13,7 @@
             <div id="emocoes">
                 @foreach ($emocoes as $emocao)
                     <img src="/emocoes{{ $emocao->imagem }}" alt="">
-                    <input type="radio" name="emocao_id" value="{{ $emocao->id }}">
+                    <input type="radio" name="emocao_id" value="{{ $emocao->id }}" {{ $usuario_emocao->emocao->id === $emocao->id ? 'checked' : '' }}>
                     <label for="">{{ $emocao->nome }}</label>
                 @endforeach
             </div>

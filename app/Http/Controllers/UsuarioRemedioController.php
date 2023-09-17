@@ -43,7 +43,9 @@ class UsuarioRemedioController extends Controller
         if (!empty($usuario_remedio)) {
             return view('edit-usurem', ['usuario_remedio' => $usuario_remedio]);
         } else {
-            return redirect()->route('index')->withErrors('Não foi possivel encontrar o usuario_remedio.');
+            return redirect()
+                ->route('index')
+                ->withErrors('Não foi possivel encontrar o usuario_remedio.');
         }
     }
 
@@ -54,11 +56,12 @@ class UsuarioRemedioController extends Controller
             'status' => $status[$id],
         ];
 
-        if (UsuarioRemedio::where('id', $id)->update($data)) {
+        try {
+            UsuarioRemedio::where('id', $id)->update($data);
             return redirect()
                 ->route('index')
                 ->with('status', 'usuario_remedio alterado!');
-        } else {
+        } catch (Exception $e) {
             return redirect()
                 ->route('index')
                 ->withErrors('Não foi possivel alterar o usuario_remedio.');
@@ -67,10 +70,15 @@ class UsuarioRemedioController extends Controller
 
     public function destroy($id)
     {
-        if (UsuarioRemedio::where('id', $id)->delete()) {
-            return redirect()->route('index')->with('status', 'usuario_remedio deletado!');
-        } else {
-            return redirect()->route('index')->withErrors('Não foi possivel deletar o usuario_remedio.');
+        try {
+            UsuarioRemedio::where('id', $id)->delete();
+            return redirect()
+                ->route('index')
+                ->with('status', 'usuario_remedio deletado!');
+        } catch (Exception $e) {
+            return redirect()
+                ->route('index')
+                ->withErrors('Não foi possivel deletar o usuario_remedio.');
         }
     }
 }

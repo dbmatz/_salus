@@ -17,6 +17,16 @@
     <br>
     <br>
 
+    <h3>Dia</h3>
+    <form method="POST" action="{{route('dia-create')}}">
+        @csrf
+        <input type="date" name="dia" required>
+        <button class="btn btn-primary" type="submit" name="button">Criar</button>
+    </form>
+
+    <br>
+    <br>
+
     <h3>Parametros</h3>
     <table class="table">
         <thead class="thead-dark">
@@ -184,6 +194,5 @@
             @endforeach
         </tbody>
     </table>
-
 
 @endsection
