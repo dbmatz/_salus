@@ -37,11 +37,15 @@ class UsuarioParametoController extends Controller
         }
     }
 
-    public function edit($id)
+    public function edit(Request $request)
     {
-        $usuario_parametro = UsuarioParametro::find($id);
-        if (!empty($usuario_parametro)) {
-            return view('edit-usupar', ['usuario_parametro' => $usuario_parametro]);
+        $dia = $request->dia;
+
+        $usuario_parametros = UsuarioParametro::all()
+            ->where('dia', $dia)
+            ->where('usuario_id', Auth::user()->id);
+        if (!empty($usuario_parametros)) {
+            return view('edit-usupar', ['usuario_parametros' => $usuario_parametros, 'dia' => $request->dia]);
         } else {
             return redirect()
                 ->route('index')
@@ -49,22 +53,34 @@ class UsuarioParametoController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $data = [
-            'avaliacao' => $request->avaliacao,
-        ];
+        $data = [];
+        $array = $request->avaliacao;
+        $array_keys = array_keys($array);
 
-        try {
-            UsuarioParametro::where('id', $id)->update($data);
-            return redirect()
-                ->route('index')
-                ->with('status', 'usuario_parametro alterado!');
-        } catch (Exception $e) {
-            return redirect()
-                ->route('index')
-                ->withErrors('Não foi possivel alterar o usuario_parametro.');
+        for ($i = 0; $i < count($array); ++$i) {
+            $param = [
+                'avaliacao' => $array[$array_keys[$i]],
+            ];
+
+            $data[$i] = $param;
+
+            try {
+                UsuarioParametro::where('usuario_id', Auth::user()->id)
+                    ->where('parametro_id', $array_keys[$i])
+                    ->where('dia', $request->dia)
+                    ->update($param);
+            } catch (Exception $e) {
+                return redirect()
+                    ->route('index')
+                    ->withErrors('Não foi possivel alterar o usuario_parametro.');
+            }
         }
+
+        return redirect()
+        ->route('index')
+        ->with('status', 'usuario_parametro alterado.');
     }
 
     public function destroy($id)

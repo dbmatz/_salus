@@ -67,8 +67,8 @@ Route::prefix('dia')->group(function(){
     Route::post('/create', [DiaController::class, 'create'])->name('dia-create');
     Route::post('/', [DiaController::class, 'store'])->name('dia-store');
     Route::get('/{id}', [DiaController::class, 'edit'])->name('dia-edit');
-    Route::put('/{id}', [UsuarioEmocaoController::class, 'update'])->name('dia-update');
-    Route::delete('/{id}', [UsuarioEmocaoController::class, 'destroy'])->name('dia-destroy');
+    Route::put('/', [UsuarioEmocaoController::class, 'update'])->name('dia-update');
+    Route::delete('/', [UsuarioEmocaoController::class, 'destroy'])->name('dia-destroy');
 });
 
 Route::prefix('usurem')->group(function(){
@@ -78,8 +78,8 @@ Route::prefix('usurem')->group(function(){
 });
 
 Route::prefix('usupar')->group(function(){
-    Route::get('/{id}', [UsuarioParametoController::class, 'edit'])->name('usupar-edit');
-    Route::put('/{id}', [UsuarioParametoController::class, 'update'])->name('usupar-update');
+    Route::get('/', [UsuarioParametoController::class, 'edit'])->name('usupar-edit');
+    Route::put('/', [UsuarioParametoController::class, 'update'])->name('usupar-update');
     Route::delete('/{id}', [UsuarioParametoController::class, 'destroy'])->name('usupar-destroy');
 });
 

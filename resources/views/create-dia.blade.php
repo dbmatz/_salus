@@ -11,30 +11,16 @@
         @csrf
         <div class="mb-3">
             <div id="emocoes">
-                @if (@empty($usuario_emocao))
-                    @foreach ($emocoes as $emocao)
-                        <img src="/emocoes/{{ $emocao->imagem }}" alt="">
-                        <input type="radio" name="emocao_id" value="{{ $emocao->id }}">
-                        <label for="emocao_id">{{ $emocao->nome }}</label>
-                    @endforeach
-                @else
-                    @foreach ($emocoes as $emocao)
-                        <img src="/emocoes/{{ $emocao->imagem }}" alt="">
-                        <input type="radio" name="emocao_id" value="{{ $emocao->id }}"
-                            {{ $usuario_emocao->emocao->id === $emocao->id ? 'checked' : '' }}>
-                        <label for="emocao_id">{{ $emocao->nome }}</label>
-                    @endforeach
-                @endif
+                @foreach ($emocoes as $emocao)
+                    <img src="/emocoes/{{ $emocao->imagem }}" alt="">
+                    <input type="radio" name="emocao_id" value="{{ $emocao->id }}">
+                    <label for="emocao_id">{{ $emocao->nome }}</label>
+                @endforeach
 
                 <br>
 
-                @if (@empty($usuario_emocao))
-                    <label for="">Descreva um pouco do seu dia</label>
-                    <input type="text" name="descricao">
-                @else
-                    <label for="">Descreva um pouco do seu dia</label>
-                    <input type="text" name="descricao" value="{{ $usuario_emocao->descricao }}">
-                @endif
+                <label for="">Descreva um pouco do seu dia</label>
+                <input type="text" name="descricao">
 
                 <br>
 

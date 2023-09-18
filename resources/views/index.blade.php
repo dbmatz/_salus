@@ -5,20 +5,21 @@
 @section('content')
 
     @auth
-        <a href="{{ route('emocao-create') }}">criar emocao</a>
-
-        <a href="{{ route('parametro-create') }}">criar parametro</a>
-
-        <a href="{{ route('remedio-create') }}">criar remedio</a>
-
-        <a href="{{ route('dia-create') }}">entrada dia</a>
+        <a class="btn btn-info" href="{{ route('emocao-create') }}">Criar emocao</a>
+        <br>
+        <h4>editar usuapar</h4>
+        <form method="GET" action="{{ route('usupar-edit') }}">
+            @csrf
+            <input type="date" name="dia" required>
+            <button class="btn btn-primary" type="submit" name="button">editar</button>
+        </form>
     @endauth
 
     <br>
     <br>
 
     <h3>Dia</h3>
-    <form method="POST" action="{{route('dia-create')}}">
+    <form method="POST" action="{{ route('dia-create') }}">
         @csrf
         <input type="date" name="dia" required>
         <button class="btn btn-primary" type="submit" name="button">Criar</button>
@@ -26,6 +27,22 @@
 
     <br>
     <br>
+
+    <div id="cards">
+        @forelse ($usuario_emocaos as $usuario_emocao)
+            <div class="card">
+                <a href="{{ route('dia-edit', ['id' => $usuario_emocao->id]) }}">
+                    <img class="card-img-top" src="/emocoes{{ $usuario_emocao->emocao->imagem }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ date('d/m', strtotime($usuario_emocao->dia)) }}</h5>
+                        <p class="card-text">{{ $usuario_emocao->descricao }}</p>
+                    </div>
+                </a>
+            </div>
+        @empty
+            <p>vazio</p>
+        @endforelse
+    </div>
 
     <h3>Parametros</h3>
     <table class="table">

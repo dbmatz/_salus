@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('usuario_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreignId('emocao_id')->references('id')->on('emocaos')->onDelete('cascade');
-            $table->string('descricao')->nullable();
+            $table->longText('descricao')->nullable();
             $table->date('dia');
         });
     }
