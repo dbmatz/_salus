@@ -33,10 +33,10 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('index') }}">SALUS</a>
-                    </li>
                     @guest
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('landingPage') }}">SALUS</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contato</a>
                         </li>
@@ -44,10 +44,10 @@
                             <a class="nav-link" href="#">Quem somos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Login</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">Cadastro</a>
+                        </li>
+                        <li class="nav-item nav-login">
+                            <a class="nav-link href-login" href="{{ route('login') }}">Login</a>
                         </li>
                     @endguest
                     @auth
@@ -89,12 +89,17 @@
         </div>
     @endif
 
-    <main class="container">
-        <div class="bg-light p-5 rounded">
+    <main class="main-container">
+        <div>
             @yield('content')
         </div>
     </main>
 
+    <br>
+
+    <footer>
+        footer
+    </footer>
 </body>
 
 </html>
