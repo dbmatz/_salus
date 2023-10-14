@@ -52,6 +52,10 @@ Route::get('/dashboard', function () {
     'usuario_remedios' => $usuario_remedios]);
 })->middleware(['auth', 'verified'])->name('index');
 
+Route::get('/editar', function(){
+    return view('profile.edit', ['user' => Auth::user()]);
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

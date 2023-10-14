@@ -17,6 +17,11 @@ class DiaController extends Controller
 {
     public function create(Request $request)
     {
+
+        if(!empty($request->dia)){
+            $dia = date("y-m-d");
+            dd($dia);
+        }
         $dia = $request->dia;
 
         /*$usuario_emocao_q = UsuarioEmocao::all()

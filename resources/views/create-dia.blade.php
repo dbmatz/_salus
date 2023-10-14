@@ -65,6 +65,7 @@
 
             </div>
             <br>
+            <a class="btn btn-info" href="{{route('index')}}">Voltar</a>
             <button class="btn btn-primary" type="submit" name="button">Salvar</button>
         </div>
     </form>
