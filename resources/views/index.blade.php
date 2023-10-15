@@ -27,10 +27,6 @@
         @endauth
 
         <br>
-        <br>
-
-        <br>
-        <br>
 
         <div id="cards-index">
             <div id="cards-border">
@@ -74,7 +70,6 @@
                         </a>
                     </div>
                 @empty
-                    <p>vazio</p>
                 @endforelse
             </div>
         </div>

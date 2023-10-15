@@ -59,7 +59,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Olá,
                                 {{ Auth::user()->name }}
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{{ route('profile.edit') }}">Conta</a>
                                 <a class="dropdown-item" href="#">Relatório</a>
                                 <a class="dropdown-item" href="{{ route('parametro-create') }}">Novo parâmetro</a>

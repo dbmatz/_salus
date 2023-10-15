@@ -5,8 +5,8 @@
     color: black;
 }
 
-body {
-    background-color: #C2E1F2;
+.main-container{
+    background-image: url(./grade_branca.png);
 }
 
 #navbarMain {
@@ -66,6 +66,7 @@ nav {
     background-color: white;
     box-shadow: 15px 15px;
     margin: 0 5px 0 5px;
+    flex-wrap: wrap;
 }
 
 #cards-border{
@@ -102,6 +103,37 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#emocoes-main {
+    display: flex;
+    justify-content: space-evenly
+}
+
+.emocao{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin: 5px;
+}
+
+#cabecalho{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    background-color: #7ACAF8;
+    margin: 5px 5px 0 5px;
+    border-radius: 10px 10px 0 0;
+}
+
+#cabecalho h1{
+    text-align: center;
+}
+
+#parametro-index {
+    display: flex;
+    justify-content: space-around;
 }
 
 a {
@@ -154,7 +186,7 @@ footer{
 }
 
 #index-main {
-    background-image: url(./grade.png);
+    background-image: url(./grade_branca.png);
 }
 
 #botoes {
@@ -172,6 +204,7 @@ footer{
     width: auto;
     height: auto;
     padding: 1rem;
-    border-radius: 10px;
-    margin-top: 1rem;
+    border-radius: 0 0 10px 10px;
+    border: 1px solid lightgray;
+    margin: 0 5px 5px 5px;
 }
