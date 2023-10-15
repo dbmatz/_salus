@@ -52,37 +52,53 @@ Route::get('/dashboard', function () {
     $mesNome = $mes->format('F');
 
     return view('index', [
-    'mesNome' => $mesNome,
-    'mesNumero' => $mesNumero,
-    'parametros' => $parametros, 
-    'emocoes' => $emocoes, 
-    'remedios' => $remedios,
-    'usuario_emocaos' => $usuario_emocaos,
-    'usuario_parametros' => $usuario_parametros, 
-    'usuario_remedios' => $usuario_remedios]);
+        'mesNome' => $mesNome,
+        'mesNumero' => $mesNumero,
+        'parametros' => $parametros,
+        'emocoes' => $emocoes,
+        'remedios' => $remedios,
+        'usuario_emocaos' => $usuario_emocaos,
+        'usuario_parametros' => $usuario_parametros,
+        'usuario_remedios' => $usuario_remedios
+    ]);
 })->middleware(['auth', 'verified'])->name('index');
 
-Route::get('/editar', function(){
+Route::get('/editar', function () {
     return view('profile.edit', ['user' => Auth::user()]);
 });
 
-Route::get('/{tipo}/{mes}', function($tipo, $mes){
-    if($tipo == True){
-        mes aumenta 1
-    }else{
-        mes diminui 1
+Route::get('/{tipo}/{mes}', function ($tipo, $mes) {
+    if ($tipo == 1) {
+        $mesNumero = $mes - 1;
+    } else {
+        $mesNumero = $mes + 1;
     }
 
-    pega tudo as entradas dnv e devolve pro index
+    $mesNome = Carbon::createFromDate(2023, $mesNumero, 1);
+    $mesNome = $mesNome->format('F');
+
+    $emocoes = Emocao::all();
+
+    $parametros = Parametro::all()->where('usuario_id', Auth::user()->id);
+
+    $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
+
+    $usuario_emocaos = UsuarioEmocao::where('usuario_id', Auth::user()->id)->whereMonth('dia', $mesNumero)->get();
+
+    $usuario_parametros = UsuarioParametro::where('usuario_id', Auth::user()->id)->whereMonth('dia', $mesNumero)->get();
+
+    $usuario_remedios = UsuarioRemedio::where('usuario_id', Auth::user()->id)->whereMonth('dia', $mesNumero)->get();
+
     return view('index', [
         'mesNome' => $mesNome,
         'mesNumero' => $mesNumero,
-        'parametros' => $parametros, 
-        'emocoes' => $emocoes, 
+        'parametros' => $parametros,
+        'emocoes' => $emocoes,
         'remedios' => $remedios,
         'usuario_emocaos' => $usuario_emocaos,
-        'usuario_parametros' => $usuario_parametros, 
-        'usuario_remedios' => $usuario_remedios]);
+        'usuario_parametros' => $usuario_parametros,
+        'usuario_remedios' => $usuario_remedios
+    ]);
 })->name('mudaMes');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -96,7 +112,7 @@ Route::prefix('emocao')->group(function () {
     Route::post('/', [EmocaoController::class, 'store'])->name('emocao-store');
 });
 
-Route::prefix('dia')->group(function(){
+Route::prefix('dia')->group(function () {
     Route::get('/create', [DiaController::class, 'create'])->name('dia-create');
     Route::post('/', [DiaController::class, 'store'])->name('dia-store');
     Route::get('/{id}', [DiaController::class, 'edit'])->name('dia-edit');
@@ -104,19 +120,19 @@ Route::prefix('dia')->group(function(){
     Route::delete('/', [UsuarioEmocaoController::class, 'destroy'])->name('dia-destroy');
 });
 
-Route::prefix('usurem')->group(function(){
+Route::prefix('usurem')->group(function () {
     Route::get('/{id}', [UsuarioRemedioController::class, 'edit'])->name('usurem-edit');
     Route::put('/{id}', [UsuarioRemedioController::class, 'update'])->name('usurem-update');
     Route::delete('/{id}', [UsuarioRemedioController::class, 'destroy'])->name('usurem-destroy');
 });
 
-Route::prefix('usupar')->group(function(){
+Route::prefix('usupar')->group(function () {
     Route::get('/', [UsuarioParametoController::class, 'edit'])->name('usupar-edit');
     Route::put('/', [UsuarioParametoController::class, 'update'])->name('usupar-update');
     Route::delete('/{id}', [UsuarioParametoController::class, 'destroy'])->name('usupar-destroy');
 });
 
-Route::prefix('parametro')->group(function() {
+Route::prefix('parametro')->group(function () {
     Route::get('/', [ParametroController::class, 'create'])->name('parametro-create');
     Route::post('/', [ParametroController::class, 'store'])->name('parametro-store');
     Route::get('/{id}/edit', [ParametroController::class, 'edit'])->where('id', '[0-9]+')->name('parametro-edit');
@@ -124,7 +140,7 @@ Route::prefix('parametro')->group(function() {
     Route::delete('/{id}', [ParametroController::class, 'destroy'])->where('id', '[0-9]+')->name('parametro-destroy');
 });
 
-Route::prefix('remedio')->group(function() {
+Route::prefix('remedio')->group(function () {
     Route::get('/', [RemedioController::class, 'create'])->name('remedio-create');
     Route::post('/', [RemedioController::class, 'store'])->name('remedio-store');
     Route::get('/{id}/edit', [RemedioController::class, 'edit'])->where('id', '[0-9]+')->name('remedio-edit');
@@ -134,4 +150,4 @@ Route::prefix('remedio')->group(function() {
 
 //Route::get('/dashboard', [UsuarioController::class, 'index'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
