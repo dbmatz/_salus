@@ -9,6 +9,7 @@ use App\Http\Controllers\UsuarioRemedioController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsuarioEmocaoController;
 use App\Http\Controllers\DiaController;
+use Carbon\Carbon;
 use App\Models\Parametro;
 use App\Models\Emocao;
 use App\Models\Remedio;
@@ -32,19 +33,28 @@ Route::get('/', function () {
 })->name('landingPage');
 
 Route::get('/dashboard', function () {
+    $mesNumero = Carbon::now();
+    $mesNumero = $mesNumero->month;
+
     $emocoes = Emocao::all();
 
     $parametros = Parametro::all()->where('usuario_id', Auth::user()->id);
 
     $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
 
-    $usuario_emocaos = UsuarioEmocao::all()->where('usuario_id', Auth::user()->id);
+    $usuario_emocaos = UsuarioEmocao::where('usuario_id', Auth::user()->id)->whereMonth('dia', $mesNumero)->get();
 
-    $usuario_parametros = UsuarioParametro::all()->where('usuario_id', Auth::user()->id);
+    $usuario_parametros = UsuarioParametro::where('usuario_id', Auth::user()->id)->whereMonth('dia', $mesNumero)->get();
 
-    $usuario_remedios = UsuarioRemedio::all()->where('usuario_id', Auth::user()->id);
+    $usuario_remedios = UsuarioRemedio::where('usuario_id', Auth::user()->id)->whereMonth('dia', $mesNumero)->get();
 
-    return view('index', ['parametros' => $parametros, 
+    $mes = Carbon::now();
+    $mesNome = $mes->format('F');
+
+    return view('index', [
+    'mesNome' => $mesNome,
+    'mesNumero' => $mesNumero,
+    'parametros' => $parametros, 
     'emocoes' => $emocoes, 
     'remedios' => $remedios,
     'usuario_emocaos' => $usuario_emocaos,
@@ -55,6 +65,25 @@ Route::get('/dashboard', function () {
 Route::get('/editar', function(){
     return view('profile.edit', ['user' => Auth::user()]);
 });
+
+Route::get('/{tipo}/{mes}', function($tipo, $mes){
+    if($tipo == True){
+        mes aumenta 1
+    }else{
+        mes diminui 1
+    }
+
+    pega tudo as entradas dnv e devolve pro index
+    return view('index', [
+        'mesNome' => $mesNome,
+        'mesNumero' => $mesNumero,
+        'parametros' => $parametros, 
+        'emocoes' => $emocoes, 
+        'remedios' => $remedios,
+        'usuario_emocaos' => $usuario_emocaos,
+        'usuario_parametros' => $usuario_parametros, 
+        'usuario_remedios' => $usuario_remedios]);
+})->name('mudaMes');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -68,7 +97,7 @@ Route::prefix('emocao')->group(function () {
 });
 
 Route::prefix('dia')->group(function(){
-    Route::post('/create', [DiaController::class, 'create'])->name('dia-create');
+    Route::get('/create', [DiaController::class, 'create'])->name('dia-create');
     Route::post('/', [DiaController::class, 'store'])->name('dia-store');
     Route::get('/{id}', [DiaController::class, 'edit'])->name('dia-edit');
     Route::put('/', [UsuarioEmocaoController::class, 'update'])->name('dia-update');

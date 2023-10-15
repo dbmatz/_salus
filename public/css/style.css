@@ -6,7 +6,6 @@
 }
 
 body {
-    padding: 5px;
     background-color: #C2E1F2;
 }
 
@@ -62,11 +61,27 @@ nav {
 #cards {
     display: flex;
     border: 1px solid lightgray;
-    border-top: 2.5rem solid lightblue;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 20px;
+    border-radius: 0 0px 5px 5px;
+    padding: 5px;
     background-color: white;
+    box-shadow: 15px 15px;
+    margin: 0 5px 0 5px;
+}
+
+#cards-border{
+    background-color: lightblue;
+    border-radius: 5px 5px 0 0;
+    padding: 5px;
+    margin: 0 5px 0 5px;
+    box-shadow: 15px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#cards-index{
+    display: flex;
+    flex-direction: column;
 }
 
 .card {
@@ -142,22 +157,10 @@ footer{
     background-image: url(./grade.png);
 }
 
-#index-resumo {
-    width: 100%;
-    height: auto;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    border-top: 2.5rem solid lightblue;
-}
-
 #botoes {
     background-color: lightgreen;
     display: flex;
     justify-content: space-around;
-}
-
-.main-container {
-    padding: 5px;
 }
 
 .btn-pencil{

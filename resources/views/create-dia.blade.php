@@ -18,10 +18,14 @@
                 @endforeach
 
                 <br>
+                <br>
+
 
                 <label for="">Descreva um pouco do seu dia</label>
-                <input type="text" name="descricao">
+                <br>
+                <input type="text" name="descricao" style="width: 20rem; heigth: 20rem;">
 
+                <br>
                 <br>
 
                 @foreach ($parametros as $parametro)
@@ -49,9 +53,8 @@
                     <label for="avaliacao">9</label>
                     <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="10">
                     <label for="avaliacao">10</label>
+                    <br>
                 @endforeach
-
-                <br>
 
                 @foreach ($remedios as $remedio)
                     <input type="number" name="parametro_id" value="{{ $remedio->id }}" hidden>
