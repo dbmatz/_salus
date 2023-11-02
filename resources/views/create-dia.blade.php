@@ -50,8 +50,7 @@
                             <input type="number" name="parametro_id" value="{{ $parametro->id }}" hidden>
                             <label for="avaliacao">{{ $parametro->nome }}</label>
                             <br>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="0" required>
-                            <label for="avaliacao">0</label>
+                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="0" hidden checked>
                             <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="1">
                             <label for="avaliacao">1</label>
                             <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="2">
@@ -82,9 +81,9 @@
                     <label for="">{{ $remedio->nome }}</label>
                     <br>
                     <label for="">Tomou</label>
-                    <input type="radio" name="status[{{ $remedio->id }}]" value="1" required>
+                    <input type="radio" name="status[{{ $remedio->id }}]" value="1">
                     <label for="">Não tomou</label>
-                    <input type="radio" name="status[{{ $remedio->id }}]" value="0">
+                    <input type="radio" name="status[{{ $remedio->id }}]" value="0" checked>
                     <br>
                 @endforeach
                 <hr>

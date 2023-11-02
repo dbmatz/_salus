@@ -100,7 +100,7 @@ Route::get('/{tipo}/{mes}', function ($tipo, $mes) {
         'usuario_parametros' => $usuario_parametros,
         'usuario_remedios' => $usuario_remedios
     ]);
-})->name('mudaMes');
+})->where('tipo', '[1-2]')->where('id', '[0-9]+')->name('mudaMes');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -116,7 +116,7 @@ Route::prefix('emocao')->group(function () {
 Route::prefix('dia')->group(function () {
     Route::get('/', [DiaController::class, 'create'])->name('dia-create');
     Route::post('/', [DiaController::class, 'store'])->name('dia-store');
-    Route::get('/{id}', [DiaController::class, 'edit'])->name('dia-edit');
+    Route::get('/{id}', [DiaController::class, 'edit'])->name('dia-edit')->where('id', '[0-9]+');
     Route::put('/', [UsuarioEmocaoController::class, 'update'])->name('dia-update');
     Route::delete('/', [UsuarioEmocaoController::class, 'destroy'])->name('dia-destroy');
 });

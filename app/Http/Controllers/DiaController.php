@@ -60,21 +60,21 @@ class DiaController extends Controller
 
     public function store(Request $request)
     {
-        if (!empty($request->status)) {
-            $resposta = (new UsuarioRemedioController())->store($request);
-            if ($resposta == 1) {
-                return redirect()
-                    ->route('index')
-                    ->withErrors('usuario_remedio naõ salvo');
-            }
-        }
-
         if (!empty($request->avaliacao)) {
             $resposta = (new UsuarioParametoController())->store($request);
             if ($resposta == 1) {
                 return redirect()
                     ->route('index')
                     ->withErrors('usuario_parametro naõ salvo');
+            }
+        }
+        
+        if (!empty($request->status)) {
+            $resposta = (new UsuarioRemedioController())->store($request);
+            if ($resposta == 1) {
+                return redirect()
+                    ->route('index')
+                    ->withErrors('usuario_remedio naõ salvo');
             }
         }
 
