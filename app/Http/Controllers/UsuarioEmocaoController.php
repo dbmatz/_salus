@@ -43,7 +43,10 @@ class UsuarioEmocaoController extends Controller
 
     public function update(Request $request)
     {
-        $usuario_emocao = UsuarioEmocao::where('dia', $request->dia)->where('usuario_id', Auth::user()->id)->first();
+        $usuario_emocao = UsuarioEmocao::where('dia', $request->dia)
+            ->where('usuario_id', Auth::user()->id)
+            ->first();
+
         $data = [
             'emocao_id' => $request->emocao_id,
             'descricao' => $request->descricao,
@@ -51,11 +54,9 @@ class UsuarioEmocaoController extends Controller
 
         try {
             UsuarioEmocao::where('id', $usuario_emocao->id)->update($data);
-            return 0;
+            return '0'; 
         } catch (Exception $e) {
-            return redirect()
-                ->route('index')
-                ->withErrors('Não foi possivel alterar o UsuarioEmocao.');
+            return 1;
         }
     }
 

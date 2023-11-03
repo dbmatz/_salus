@@ -119,11 +119,13 @@ class DiaController extends Controller
 
     public function update(Request $request)
     {
-        $resposta = (new UsuarioEmocaoController())->update($request);
-        if ($resposta == 1) {
-            return redirect()
-                ->route('index')
-                ->withErrors('usuario_emocao não alterado');
+        if (!empty($request->avaliacao)) {
+            $resposta = (new UsuarioEmocaoController())->update($request);
+            if ($resposta == 1) {
+                return redirect()
+                    ->route('index')
+                    ->withErrors('usuario_parametro naõ salvo');
+            }
         }
 
         if (!empty($request->status)) {
@@ -135,7 +137,7 @@ class DiaController extends Controller
             }
         }
 
-        /*if (!empty($request->avaliacao)) {
+        if (!empty($request->avaliacao)) {
             $resposta = (new UsuarioParametoController())->update($request);
             if ($resposta == 1) {
                 return redirect()
@@ -146,6 +148,6 @@ class DiaController extends Controller
 
         return redirect()
             ->route('index')
-            ->with('status', 'dia salvo');*/
+            ->with('status', 'dia salvo');
     }
 }

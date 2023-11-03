@@ -49,7 +49,7 @@ class UsuarioRemedioController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         $status = $request->status;
         $data = [

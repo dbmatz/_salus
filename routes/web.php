@@ -117,8 +117,8 @@ Route::prefix('dia')->group(function () {
     Route::get('/', [DiaController::class, 'create'])->name('dia-create');
     Route::post('/', [DiaController::class, 'store'])->name('dia-store');
     Route::get('/{id}', [DiaController::class, 'edit'])->name('dia-edit')->where('id', '[0-9]+');
-    Route::put('/', [UsuarioEmocaoController::class, 'update'])->name('dia-update');
-    Route::delete('/', [UsuarioEmocaoController::class, 'destroy'])->name('dia-destroy');
+    Route::put('/', [DiaController::class, 'update'])->name('dia-update');
+    //Route::delete('/', [UsuarioEmocaoController::class, 'destroy'])->name('dia-destroy');
 });
 
 Route::prefix('usurem')->group(function () {
