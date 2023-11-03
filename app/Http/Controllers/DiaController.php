@@ -109,8 +109,8 @@ class DiaController extends Controller
             'parametros' => $parametros,
             'remedios' => $remedios,
             'usuario_emocao' => $usuario_emocao,
-            'usuario_parametro' => $usuario_parametro,
-            'usuario_remedio' => $usuario_remedio,
+            'usuario_parametros' => $usuario_parametro,
+            'usuario_remedios' => $usuario_remedio,
             'dia' => $dia,
         ]);
     }

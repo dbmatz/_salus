@@ -76,16 +76,19 @@
                     @endforeach
                 </div>
 
-                @foreach ($remedios as $remedio)
-                    <input type="number" name="parametro_id" value="{{ $remedio->id }}" hidden>
-                    <label for="">{{ $remedio->nome }}</label>
-                    <br>
-                    <label for="">Tomou</label>
-                    <input type="radio" name="status[{{ $remedio->id }}]" value="1">
-                    <label for="">Não tomou</label>
-                    <input type="radio" name="status[{{ $remedio->id }}]" value="0" checked>
-                    <br>
-                @endforeach
+                <div id="remedio-index">
+                    @foreach ($remedios as $remedio)
+                        <div class="remedio-ind"></div>
+                        <input type="number" name="parametro_id" value="{{ $remedio->id }}" hidden>
+                        <label for="">{{ $remedio->nome }}</label>
+                        <br>
+                        <label for="">Tomou</label>
+                        <input type="radio" name="status[{{ $remedio->id }}]" value="1">
+                        <label for="">Não tomou</label>
+                        <input type="radio" name="status[{{ $remedio->id }}]" value="0" checked>
+                        <br>
+                    @endforeach
+                </div>
                 <hr>
 
                 <label for="">Descreva um pouco do seu dia</label>
