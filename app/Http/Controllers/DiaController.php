@@ -17,7 +17,7 @@ class DiaController extends Controller
 {
     public function create(Request $request)
     {
-        $dia = date("y-m-d");
+        $dia = date('y-m-d');
 
         /*$usuario_emocao_q = UsuarioEmocao::all()
             ->where('dia', $dia)
@@ -68,7 +68,7 @@ class DiaController extends Controller
                     ->withErrors('usuario_parametro naõ salvo');
             }
         }
-        
+
         if (!empty($request->status)) {
             $resposta = (new UsuarioRemedioController())->store($request);
             if ($resposta == 1) {
@@ -101,7 +101,9 @@ class DiaController extends Controller
             ->where('usuario_id', Auth::user()->id);
         $parametros = Parametro::all()->where('usuario_id', Auth::user()->id);
 
-        $usuario_remedio = UsuarioParametro::all()->where('usuario_id', Auth::user()->id);
+        $usuario_remedio = UsuarioRemedio::all()
+            ->where('dia', $dia)
+            ->where('usuario_id', Auth::user()->id);
         $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
 
         return view('edit-dia', [
@@ -115,18 +117,15 @@ class DiaController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $resposta = (new UsuarioEmocaoController())->update($request, $id);
+        $resposta = (new UsuarioEmocaoController())->update($request);
         if ($resposta == 1) {
             return redirect()
                 ->route('index')
-                ->withErrors('usuario_emocao naõ salvo');
+                ->withErrors('usuario_emocao não alterado');
         }
 
-        $usuario_emocao = UsuarioEmocao::where('id', $id);
-        $dia = $usuario_emocao->dia;
-        
         if (!empty($request->status)) {
             $resposta = (new UsuarioRemedioController())->update($request);
             if ($resposta == 1) {
@@ -136,7 +135,7 @@ class DiaController extends Controller
             }
         }
 
-        if (!empty($request->avaliacao)) {
+        /*if (!empty($request->avaliacao)) {
             $resposta = (new UsuarioParametoController())->update($request);
             if ($resposta == 1) {
                 return redirect()
@@ -147,6 +146,6 @@ class DiaController extends Controller
 
         return redirect()
             ->route('index')
-            ->with('status', 'dia salvo');
+            ->with('status', 'dia salvo');*/
     }
 }

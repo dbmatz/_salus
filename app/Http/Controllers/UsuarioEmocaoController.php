@@ -41,18 +41,17 @@ class UsuarioEmocaoController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
+        $usuario_emocao = UsuarioEmocao::where('dia', $request->dia)->where('usuario_id', Auth::user()->id)->first();
         $data = [
             'emocao_id' => $request->emocao_id,
             'descricao' => $request->descricao,
         ];
 
         try {
-            UsuarioEmocao::where('id', $id)->update($data);
-            return redirect()
-                ->route('index')
-                ->with('status', 'UsuarioEmocao alterado!');
+            UsuarioEmocao::where('id', $usuario_emocao->id)->update($data);
+            return 0;
         } catch (Exception $e) {
             return redirect()
                 ->route('index')
