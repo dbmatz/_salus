@@ -19,41 +19,22 @@ class DiaController extends Controller
     {
         $dia = date('y-m-d');
 
-        /*$usuario_emocao_q = UsuarioEmocao::all()
-            ->where('dia', $dia)
-            ->where('usuario_id', Auth::user()->id);*/
+        $usuario_emocao = UsuarioEmocao::where('dia', $dia)->where('usuario_id', Auth::user()->id)->first();
+
+        if (!empty($usuario_emocao)) {
+            return redirect()->route('dia-edit', ['id' => $usuario_emocao->id]);
+        }
+
         $emocoes = Emocao::all();
 
-        /*$usuario_parametro = UsuarioParametro::all()
-            ->where('dia', $dia)
-            ->where('usuario_id', Auth::user()->id);*/
         $parametros = Parametro::all()->where('usuario_id', Auth::user()->id);
 
-        /*$usuario_remedio = UsuarioRemedio::all()
-            ->where('dia', $dia)
-            ->where('usuario_id', Auth::user()->id);*/
         $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
-
-        /*if (empty($usuario_emocao_q)) {
-            $usuario_emocao = new UsuarioEmocao();
-            $usuario_emocao->id = $usuario_emocao_q[0]->id;
-            $usuario_emocao->emocao_id = $usuario_emocao_q[0]->emocao_id;
-            $usuario_emocao->usuario_id = $usuario_emocao_q[0]->usuario_id;
-            $usuario_emocao->descricao = $usuario_emocao_q[0]->descricao;
-            $usuario_emocao->dia = $usuario_emocao_q[0]->dia;
-        } else {
-            $usuario_emocao = 0;
-        }*/
-
-        //dd($usuario_emocao->emocao->id);
 
         return view('create-dia', [
             'emocoes' => $emocoes,
             'parametros' => $parametros,
             'remedios' => $remedios,
-            /*'usuario_emocao' => $usuario_emocao,
-            'usuario_parametro' => $usuario_parametro,
-            'usuario_remedio' => $usuario_remedio,*/
             'dia' => $dia,
         ]);
     }
