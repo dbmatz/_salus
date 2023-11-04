@@ -22,11 +22,6 @@
 
                 <br>
 
-                <label for="">Descreva um pouco do seu dia</label>
-                <input type="text" name="descricao" value="{{ $usuario_emocao->descricao }}">
-
-                <br>
-
                 @forelse($usuario_parametros as $usuario_parametro)
                     <div class="parametro">
                         <input type="number" name="parametro_id" value="{{ $usuario_parametro->parametro->id }}" hidden>
@@ -119,6 +114,9 @@
                         @endforeach
                     @endforelse
                 </div>
+
+                <label for="">Descreva um pouco do seu dia</label>
+                <input type="text" name="descricao" value="{{ $usuario_emocao->descricao }}">
 
             </div>
             <br>

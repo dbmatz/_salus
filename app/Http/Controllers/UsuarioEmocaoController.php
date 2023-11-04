@@ -7,20 +7,17 @@ use Illuminate\Http\Request;
 use App\Models\Emocao;
 use App\Models\User;
 use App\Models\UsuarioEmocao;
+use Illuminate\Support\Facades\DB;
 use Auth;
 
 class UsuarioEmocaoController extends Controller
 {
     public function store(Request $request)
     {
-        $usuario_emocao = new UsuarioEmocao();
-        $usuario_emocao->usuario_id = Auth::user()->id;
-        $usuario_emocao->emocao_id = $request->emocao_id;
-        $usuario_emocao->descricao = $request->descricao;
-        $usuario_emocao->dia = date('Y-m-d');
+        $data = ['usuario_id' => Auth::user()->id, 'dia' => date('Y-m-d')];
 
         try {
-            $usuario_emocao->save();
+            DB::table('usuario_emocaos')->updateOrInsert($data, ['emocao_id' => $request->emocao_id, 'descricao' => $request->descricao]);
             return 0;
         } catch (Exception $e) {
             dd($e->getMessage());
@@ -41,7 +38,7 @@ class UsuarioEmocaoController extends Controller
         }
     }
 
-    public function update(Request $request)
+    /*public function update(Request $request)
     {
         $usuario_emocao = UsuarioEmocao::where('dia', $request->dia)
             ->where('usuario_id', Auth::user()->id)
@@ -54,11 +51,11 @@ class UsuarioEmocaoController extends Controller
 
         try {
             UsuarioEmocao::where('id', $usuario_emocao->id)->update($data);
-            return '0'; 
+            return '0';
         } catch (Exception $e) {
             return 1;
         }
-    }
+    }*/
 
     public function destroy($id)
     {

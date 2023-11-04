@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Parametro;
 use App\Models\User;
 use App\Models\UsuarioParametro;
+use Illuminate\Support\Facades\DB;
 use Auth;
 use Exception;
 
@@ -13,7 +14,6 @@ class UsuarioParametoController extends Controller
 {
     public function store(Request $request)
     {
-        $data = [];
         $array = $request->avaliacao;
         $array_keys = array_keys($array);
 
@@ -21,20 +21,18 @@ class UsuarioParametoController extends Controller
             $param = [
                 'usuario_id' => Auth::user()->id,
                 'parametro_id' => $array_keys[$i],
-                'avaliacao' => $array[$array_keys[$i]],
                 'dia' => date('Y-m-d'),
             ];
 
-            $data[$i] = $param;
+            try {
+                DB::table('usuario_parametros')->updateOrInsert($param, ['avaliacao' => $array[$array_keys[$i]]]);
+                //UsuarioParametro::insert($data);
+            } catch (Exception $e) {
+                //dd($e->getMessage());
+                return 1;
+            }
         }
-
-        try {
-            UsuarioParametro::insert($data);
-            return 0;
-        } catch (Exception $e) {
-            //dd($e->getMessage());
-            return 1;
-        }
+        return 0;
     }
 
     public function edit(Request $request)
@@ -53,7 +51,7 @@ class UsuarioParametoController extends Controller
         }
     }
 
-    public function update(Request $request)
+    /*public function update(Request $request)
     {
         $data = [];
         $array = $request->avaliacao;
@@ -77,7 +75,7 @@ class UsuarioParametoController extends Controller
         }
 
         return 0;
-    }
+    }*/
 
     public function destroy($id)
     {

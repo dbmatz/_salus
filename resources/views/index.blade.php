@@ -6,26 +6,6 @@
 
     <div id="index-main">
 
-        @auth
-            <div id="botoes">
-                <a class="btn btn-info" href="{{ route('emocao-create') }}">Criar emocao</a>
-                <br>
-                <h4>editar usupar</h4>
-                <form method="GET" action="{{ route('usupar-edit') }}">
-                    @csrf
-                    <input type="date" name="dia" required>
-                    <button class="btn btn-primary" type="submit" name="button">editar</button>
-                </form>
-                <br>
-                <h3>Dia</h3>
-                <form method="POST" action="{{ route('dia-create') }}">
-                    @csrf
-                    <input type="date" name="dia" required>
-                    <button class="btn btn-primary" type="submit" name="button">Criar</button>
-                </form>
-            </div>
-        @endauth
-
         <br>
 
         <div id="cards-index">

@@ -121,7 +121,7 @@ Route::prefix('dia')->group(function () {
     //Route::delete('/', [UsuarioEmocaoController::class, 'destroy'])->name('dia-destroy');
 });
 
-Route::prefix('usurem')->group(function () {
+/*Route::prefix('usurem')->group(function () {
     Route::get('/{id}', [UsuarioRemedioController::class, 'edit'])->name('usurem-edit');
     Route::put('/{id}', [UsuarioRemedioController::class, 'update'])->name('usurem-update');
     Route::delete('/{id}', [UsuarioRemedioController::class, 'destroy'])->name('usurem-destroy');
@@ -131,7 +131,7 @@ Route::prefix('usupar')->group(function () {
     Route::get('/', [UsuarioParametoController::class, 'edit'])->name('usupar-edit');
     Route::put('/', [UsuarioParametoController::class, 'update'])->name('usupar-update');
     Route::delete('/{id}', [UsuarioParametoController::class, 'destroy'])->name('usupar-destroy');
-});
+});*/
 
 Route::prefix('parametro')->group(function () {
     Route::get('/', [ParametroController::class, 'create'])->name('parametro-create');
