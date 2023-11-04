@@ -51,21 +51,22 @@ class UsuarioRemedioController extends Controller
 
     public function update(Request $request)
     {
-        $status = $request->status;
-        $data = [
-            'status' => $status[$id],
-        ];
+        $data = [];
+        $array = $request->status;
+        $array_keys = array_keys($array);
 
-        try {
-            UsuarioRemedio::where('id', $id)->update($data);
-            return redirect()
-                ->route('index')
-                ->with('status', 'usuario_remedio alterado!');
-        } catch (Exception $e) {
-            return redirect()
-                ->route('index')
-                ->withErrors('Não foi possivel alterar o usuario_remedio.');
+        for ($i = 0; $i < count($array); ++$i) {
+            $data = ['status' => $array[$array_keys[$i]]];
+            try {
+                UsuarioRemedio::where('usuario_id', Auth::user()->id)
+                    ->where('dia', $request->dia)
+                    ->update($data);
+            } catch (Exception $e) {
+                return 1;
+            }
         }
+
+        return 0;
     }
 
     public function destroy($id)

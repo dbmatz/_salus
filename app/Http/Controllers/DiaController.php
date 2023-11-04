@@ -137,6 +137,8 @@ class DiaController extends Controller
             }
         }
 
+        dd($resposta);
+
         if (!empty($request->avaliacao)) {
             $resposta = (new UsuarioParametoController())->update($request);
             if ($resposta == 1) {
