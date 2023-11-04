@@ -72,15 +72,11 @@ class UsuarioParametoController extends Controller
                     ->where('dia', $request->dia)
                     ->update($param);
             } catch (Exception $e) {
-                return redirect()
-                    ->route('index')
-                    ->withErrors('Não foi possivel alterar o usuario_parametro.');
+                return 1;
             }
         }
 
-        return redirect()
-        ->route('index')
-        ->with('status', 'usuario_parametro alterado.');
+        return 0;
     }
 
     public function destroy($id)

@@ -56,11 +56,17 @@ class UsuarioRemedioController extends Controller
         $array_keys = array_keys($array);
 
         for ($i = 0; $i < count($array); ++$i) {
-            $data = ['status' => $array[$array_keys[$i]]];
+            $param = [
+                'status' => $array[$array_keys[$i]],
+            ];
+
+            $data[$i] = $param;
+
             try {
                 UsuarioRemedio::where('usuario_id', Auth::user()->id)
+                    ->where('remedio_id', $array_keys[$i])
                     ->where('dia', $request->dia)
-                    ->update($data);
+                    ->update($param);
             } catch (Exception $e) {
                 return 1;
             }
