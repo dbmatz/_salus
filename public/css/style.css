@@ -5,8 +5,10 @@
     color: black;
 }
 
-.main-container{
+.main-container {
     background-image: url(./grade_branca.png);
+    display: flex;
+    flex-direction: column;
 }
 
 #navbarMain {
@@ -30,6 +32,11 @@ nav {
 
 .nav-link {
     color: black;
+    font-family: 'Playfair Display', serif;
+}
+
+#home {
+    font-weight: bold;
 }
 
 .navbar {
@@ -69,7 +76,7 @@ nav {
     flex-wrap: wrap;
 }
 
-#cards-border{
+#cards-border {
     background-color: lightblue;
     border-radius: 5px 5px 0 0;
     padding: 5px;
@@ -80,7 +87,7 @@ nav {
     align-items: center;
 }
 
-#cards-index{
+#cards-index {
     display: flex;
     flex-direction: column;
 }
@@ -110,14 +117,14 @@ nav {
     justify-content: space-evenly
 }
 
-.emocao{
+.emocao {
     display: flex;
     flex-direction: column;
     gap: 2px;
     margin: 5px;
 }
 
-#cabecalho{
+#cabecalho {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -127,7 +134,7 @@ nav {
     border-radius: 10px 10px 0 0;
 }
 
-#cabecalho h1{
+#cabecalho h1 {
     text-align: center;
 }
 
@@ -148,21 +155,48 @@ a:hover {
 
 #salus-init {
     width: 100%;
-    height: 10rem;
+    height: auto;
     background-image: url(./grade.png);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    text-align: center;
 }
 
 #flor-maracuja {
-    width: 5rem;
-    height: 5rem;
+    width: 25rem;
+    height: 25rem;
+
+}
+
+#SALUS {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 15rem;
+    font-family: 'Playfair Display', serif;
 }
 
 #salus-sobre {
-    height: 10rem;
+    height: auto;
+    padding: 20px;
     background: rgb(194, 229, 255);
     background: radial-gradient(circle, rgba(194, 229, 255, 1) 0%, rgba(255, 255, 255, 1) 100%);
     border-bottom: 1px solid gray;
     border-top: 1px solid gray;
+    font-size: 1.5rem;
+    font-family: 'Old Standard TT', serif;
+}
+
+.card-title{
+    text-align: center;
+}
+
+.card-text{
+    text-align: justify;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 #cards-sobre {
@@ -170,7 +204,7 @@ a:hover {
     justify-content: space-around;
 }
 
-#card-add{
+#card-add {
     background-color: #7ACAF8;
     border-radius: 50%;
 }
@@ -180,9 +214,12 @@ a:hover {
     height: auto;
 }
 
-footer{
-    width: 100%;
-    height: 5rem;
+footer {
+    background-color: #C2E5FF;
+    height: auto;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
 }
 
 #index-main {
@@ -195,11 +232,11 @@ footer{
     justify-content: space-around;
 }
 
-.btn-pencil{
+.btn-pencil {
     background-color: purple;
 }
 
-.create-novo{
+.create-novo {
     background-color: white;
     width: auto;
     height: auto;

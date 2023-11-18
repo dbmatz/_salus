@@ -16,6 +16,11 @@
         integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="<?php echo asset('css/style.css'); ?>" type="text/css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Old+Standard+TT&family=Playfair+Display&family=Ubuntu:wght@300&display=swap"
+        rel="stylesheet">
     <title>@yield('tittle')</title>
 </head>
 
@@ -35,7 +40,7 @@
                 <ul class="navbar-nav">
                     @guest
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('landingPage') }}">SALUS</a>
+                            <a class="nav-link" id="home" href="{{ route('landingPage') }}">SALUS</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contato</a>
@@ -51,9 +56,9 @@
                         </li>
                     @endguest
                     @auth
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('index') }}">SALUS</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('index') }}">SALUS</a>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Olá,
@@ -97,11 +102,8 @@
             @yield('content')
         </div>
     </main>
-
-    <br>
-
     <footer>
-        footer
+        Todos os Direitos Reservados ©
     </footer>
 </body>
 
