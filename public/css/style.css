@@ -94,7 +94,8 @@ nav {
 
 .card {
     margin: 5px;
-    width: auto;
+    width: 12rem;
+    height: 18rem;
     padding: 5px;
     background-color: #f3f2f2;
     border: 2px solid lightgray;
@@ -141,6 +142,12 @@ nav {
 #parametro-index {
     display: flex;
     justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.parametro {
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 a {
@@ -190,11 +197,11 @@ a:hover {
     font-family: 'Old Standard TT', serif;
 }
 
-.card-title{
+.card-title {
     text-align: center;
 }
 
-.card-text{
+.card-text {
     text-align: justify;
     font-family: 'Ubuntu', sans-serif;
 }
@@ -214,16 +221,9 @@ a:hover {
     height: auto;
 }
 
-footer {
-    background-color: #C2E5FF;
-    height: auto;
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-}
-
 #index-main {
     background-image: url(./grade_branca.png);
+    height: 100%;
 }
 
 #botoes {
@@ -244,4 +244,26 @@ footer {
     border-radius: 0 0 10px 10px;
     border: 1px solid lightgray;
     margin: 0 5px 5px 5px;
+}
+
+#remedio-index {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.parametros-sn-index {
+    display: flex;
+    justify-content: space-around;
+}
+
+.remedio-ind {
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.parametro-sn {
+    display: flex;
+    flex-direction: column;
+    margin-right: 8px;
 }

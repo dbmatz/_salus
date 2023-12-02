@@ -43,12 +43,6 @@
                             <a class="nav-link" id="home" href="{{ route('landingPage') }}">SALUS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Contato</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Quem somos</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">Cadastro</a>
                         </li>
                         <li class="nav-item nav-login">
@@ -102,9 +96,6 @@
             @yield('content')
         </div>
     </main>
-    <footer>
-        Todos os Direitos Reservados ©
-    </footer>
 </body>
 
 </html>

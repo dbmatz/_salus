@@ -76,30 +76,40 @@
                     @endforeach
                 </div>
 
+                <hr>
+
                 <div id="remedio-index">
                     @foreach ($remedios as $remedio)
-                        <div class="remedio-ind"></div>
-                        <input type="number" name="parametro_id" value="{{ $remedio->id }}" hidden>
-                        <label for="">{{ $remedio->nome }}</label>
-                        <br>
-                        <label for="">Tomou</label>
-                        <input type="radio" name="status[{{ $remedio->id }}]" value="1">
-                        <label for="">Não tomou</label>
-                        <input type="radio" name="status[{{ $remedio->id }}]" value="0" checked>
+                        <div class="remedio-ind">
+                            <input type="number" name="parametro_id" value="{{ $remedio->id }}" hidden>
+                            <label for="">{{ $remedio->nome }}</label>
+                            <br>
+                            <div class="parametros-sn-index">
+                                <div class="parametro-sn">
+                                    <label for="">Tomou</label>
+                                    <input type="radio" name="status[{{ $remedio->id }}]" value="1">
+                                </div>
+                                <div class="parametro-sn">
+                                    <label for="">Não tomou</label>
+                                    <input type="radio" name="status[{{ $remedio->id }}]" value="0" checked>
+                                </div>
+                            </div>
+                        </div>
                         <br>
                     @endforeach
                 </div>
-                <hr>
-
-                <label for="">Descreva um pouco do seu dia</label>
-                <br>
-                <textarea name="descricao" rows="4" cols="50"></textarea>
-
-                <br>
-                <a class="btn btn-info" href="{{ route('index') }}">Voltar</a>
-                <button class="" type="submit" name="button">Salvar</button>
             </div>
-        </form>
+            <hr>
+
+            <label for="">Descreva um pouco do seu dia</label>
+            <br>
+            <textarea name="descricao" rows="5" cols="175"></textarea>
+
+            <br>
+            <a class="btn btn-info" href="{{ route('index') }}">Voltar</a>
+            <button class="" type="submit" name="button">Salvar</button>
+    </div>
+    </form>
     </div>
 
 @endsection
