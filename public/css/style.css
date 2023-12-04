@@ -245,10 +245,6 @@ a:hover {
     height: 100%;
 }
 
-.input-descricao {
-    padding: 5px;
-}
-
 #botoes {
     background-color: lightgreen;
     display: flex;

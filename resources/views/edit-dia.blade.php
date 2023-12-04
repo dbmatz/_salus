@@ -6,6 +6,25 @@
 
     <div id="cabecalho">
         <h1>{{ date('d/m/Y', strtotime($dia)) }}</h1>
+        <br>
+        <div class="dropdown show">
+            <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-pencil-square" viewBox="0 0 16 16">
+                    <path
+                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                    <path fill-rule="evenodd"
+                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                </svg>
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+        </div>
     </div>
 
     <div class="create-novo">
@@ -14,16 +33,20 @@
             @method('PUT')
             <input type="date" name="dia" value="{{ $dia }}" hidden>
             <div class="mb-3">
-                <div id="emocoes">
+                <div id="emocoes-main">
                     @foreach ($emocoes as $emocao)
-                        <img src="/emocoes{{ $emocao->imagem }}" alt="">
-                        <input type="radio" name="emocao_id" value="{{ $emocao->id }}"
-                            {{ $usuario_emocao->emocao->id === $emocao->id ? 'checked' : '' }}>
-                        <label for="emocao_id">{{ $emocao->nome }}</label>
+                        <div class="emocao">
+                            <img src="/emocoes{{ $emocao->imagem }}" alt="">
+                            <input type="radio" name="emocao_id" value="{{ $emocao->id }}"
+                                {{ $usuario_emocao->emocao->id === $emocao->id ? 'checked' : '' }}>
+                            <label for="emocao_id">{{ $emocao->nome }}</label>
+                        </div>
                     @endforeach
+                </div>
 
-                    <br>
+                <hr>
 
+                <div id="parametro-index">
                     @forelse($usuario_parametros as $usuario_parametro)
                         <div class="parametro">
                             <input type="number" name="parametro_id" value="{{ $usuario_parametro->parametro->id }}"
@@ -91,42 +114,58 @@
                             <label for="avaliacao">10</label>
                         @endforeach
                     @endforelse
+                </div>
 
-                    <br>
+                <hr>
 
-                    <div id="remedio-index">
-                        @forelse($usuario_remedios as $usuario_remedio)
+                <div id="remedio-index">
+                    @forelse($usuario_remedios as $usuario_remedio)
+                        <div class="remedio-ind">
                             <input type="number" name="parametro_id" value="{{ $usuario_remedio->remedio->id }}"
                                 hidden>
                             <label for="">{{ $usuario_remedio->remedio->nome }}</label>
+                            <br>
+                            <div class="parametros-sn-index">
+                                <div class="parametro-sn">
+                                    <label for="">Tomou</label>
+                                    <input type="radio" name="status[{{ $usuario_remedio->remedio->id }}]"
+                                        value="1" {{ $usuario_remedio->status === 1 ? 'checked' : '' }}>
+                                </div>
+                                <div class="parametro-sn">
+                                    <label for="">Não tomou</label>
+                                    <input type="radio" name="status[{{ $usuario_remedio->remedio->id }}]"
+                                        value="0" {{ $usuario_remedio->status === 0 ? 'checked' : '' }}>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    @empty
+                        @forelse ($remedios as $remedio)
+                            <input type="number" name="parametro_id" value="{{ $remedio->id }}" hidden>
+                            <label for="">{{ $remedio->nome }}</label>
                             <label for="">Tomou</label>
-                            <input type="radio" name="status[{{ $usuario_remedio->remedio->id }}]" value="1"
-                                {{ $usuario_remedio->status === 1 ? 'checked' : '' }}>
+                            <input type="radio" name="status[{{ $remedio->id }}]" value="1">
                             <label for="">Não tomou</label>
-                            <input type="radio" name="status[{{ $usuario_remedio->remedio->id }}]" value="0"
-                                {{ $usuario_remedio->status === 0 ? 'checked' : '' }}>
+                            <input type="radio" name="status[{{ $remedio->id }}]" value="0" checked>
                             <br>
                         @empty
-                            @foreach ($remedios as $remedio)
-                                <input type="number" name="parametro_id" value="{{ $remedio->id }}" hidden>
-                                <label for="">{{ $remedio->nome }}</label>
-                                <label for="">Tomou</label>
-                                <input type="radio" name="status[{{ $remedio->id }}]" value="1">
-                                <label for="">Não tomou</label>
-                                <input type="radio" name="status[{{ $remedio->id }}]" value="0" checked>
-                                <br>
-                            @endforeach
+                            <br>
                         @endforelse
-                    </div>
-
-                    <label for="">Descreva um pouco do seu dia</label>
-                    <input type="text" name="descricao" value="{{ $usuario_emocao->descricao }}">
-
+                    @endforelse
                 </div>
-                <br>
-                <button class="btn btn-primary" type="submit" name="button">Salvar</button>
+
+                <hr>
+
+                <label for="">Descreva um pouco do seu dia</label>
+                <textarea name="descricao" rows="5" cols="175">{{ $usuario_emocao->descricao }}</textarea>
+
             </div>
-        </form>
+            <br>
+            <a class="btn btn-info" href="{{ route('index') }}">Voltar</a>
+            <button class="btn btn-primary" type="submit" name="button">Salvar</button>
+
+    </div>
+    </form>
     </div>
 
 @endsection

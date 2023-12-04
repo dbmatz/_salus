@@ -27,7 +27,6 @@
     </div>
 
     <div class="create-novo">
-
         <form method="post" enctype="multipart/form-data" action="{{ route('dia-store') }}">
             @csrf
             <div class="mb-3">
