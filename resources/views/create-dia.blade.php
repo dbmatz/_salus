@@ -4,7 +4,7 @@
 
 @section('content')
     <div id="cabecalho">
-        <h1>Dia {{ date('d/m/Y', strtotime($dia)) }}</h1>
+        <h1>{{ date('d/m/Y', strtotime($dia)) }}</h1>
         <br>
         <div class="dropdown show">
             <a class="btn btn-primary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
@@ -103,7 +103,7 @@
 
             <label for="">Descreva um pouco do seu dia</label>
             <br>
-            <textarea name="descricao" rows="5" cols="175"></textarea>
+            <textarea name="descricao" rows="5" cols="175" id="input-descricao"></textarea>
 
             <br>
             <a class="btn btn-info" href="{{ route('index') }}">Voltar</a>

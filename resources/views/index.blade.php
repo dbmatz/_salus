@@ -39,13 +39,13 @@
                     </a>
                 </div>
                 @forelse ($usuario_emocaos as $usuario_emocao)
-                    <div class="card">
-                        <a href="{{ route('dia-edit', ['id' => $usuario_emocao->id]) }}">
+                    <div class="card card-emocao">
+                        <a href="{{ route('dia-edit', ['id' => $usuario_emocao->id]) }}" class="card-content">
                             <img class="card-img-top" src="/emocoes{{ $usuario_emocao->emocao->imagem }}"
                                 alt="Card image cap">
                             <div class="card-body">
                                 <h5 class="card-title">{{ date('d/m', strtotime($usuario_emocao->dia)) }}</h5>
-                                <p class="card-text">{{ $usuario_emocao->descricao }}</p>
+                                <p class="card-text card-descricao">{{ $usuario_emocao->descricao }}</p>
                             </div>
                         </a>
                     </div>
