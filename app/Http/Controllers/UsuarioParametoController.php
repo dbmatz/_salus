@@ -21,7 +21,7 @@ class UsuarioParametoController extends Controller
             $param = [
                 'usuario_id' => Auth::user()->id,
                 'parametro_id' => $array_keys[$i],
-                'dia' => date('Y-m-d'),
+                'dia' => $request->dia,
             ];
 
             try {

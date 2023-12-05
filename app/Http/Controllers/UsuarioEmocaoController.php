@@ -14,7 +14,7 @@ class UsuarioEmocaoController extends Controller
 {
     public function store(Request $request)
     {
-        $data = ['usuario_id' => Auth::user()->id, 'dia' => date('Y-m-d')];
+        $data = ['usuario_id' => Auth::user()->id, 'dia' => $request->dia];
 
         try {
             DB::table('usuario_emocaos')->updateOrInsert($data, ['emocao_id' => $request->emocao_id, 'descricao' => $request->descricao]);
