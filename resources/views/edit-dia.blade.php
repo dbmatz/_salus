@@ -104,29 +104,32 @@
                         </div>
                     @empty
                         @foreach ($parametros as $parametro)
-                            <input type="number" name="parametro_id" value="{{ $parametro->id }}" hidden>
-                            <label for="avaliacao">{{ $parametro->nome }}</label>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="0" hidden checked>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="1">
-                            <label for="avaliacao">1</label>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="2">
-                            <label for="avaliacao">2</label>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="3">
-                            <label for="avaliacao">3</label>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="4">
-                            <label for="avaliacao">4</label>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="5">
-                            <label for="avaliacao">5</label>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="6">
-                            <label for="avaliacao">6</label>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="7">
-                            <label for="avaliacao">7</label>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="8">
-                            <label for="avaliacao">8</label>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="9">
-                            <label for="avaliacao">9</label>
-                            <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="10">
-                            <label for="avaliacao">10</label>
+                            <div class="parametro">
+                                <input type="number" name="parametro_id" value="{{ $parametro->id }}" hidden>
+                                <label for="avaliacao">{{ $parametro->nome }}</label>
+                                <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="0" hidden
+                                    checked>
+                                <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="1">
+                                <label for="avaliacao">1</label>
+                                <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="2">
+                                <label for="avaliacao">2</label>
+                                <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="3">
+                                <label for="avaliacao">3</label>
+                                <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="4">
+                                <label for="avaliacao">4</label>
+                                <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="5">
+                                <label for="avaliacao">5</label>
+                                <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="6">
+                                <label for="avaliacao">6</label>
+                                <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="7">
+                                <label for="avaliacao">7</label>
+                                <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="8">
+                                <label for="avaliacao">8</label>
+                                <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="9">
+                                <label for="avaliacao">9</label>
+                                <input type="radio" name="avaliacao[{{ $parametro->id }}]" value="10">
+                                <label for="avaliacao">10</label>
+                            </div>
                         @endforeach
                     @endforelse
                 </div>
@@ -156,13 +159,21 @@
                         <br>
                     @empty
                         @forelse ($remedios as $remedio)
-                            <input type="number" name="parametro_id" value="{{ $remedio->id }}" hidden>
-                            <label for="">{{ $remedio->nome }}</label>
-                            <label for="">Tomou</label>
-                            <input type="radio" name="status[{{ $remedio->id }}]" value="1">
-                            <label for="">Não tomou</label>
-                            <input type="radio" name="status[{{ $remedio->id }}]" value="0" checked>
-                            <br>
+                            <div class="remedio-ind">
+                                <input type="number" name="parametro_id" value="{{ $remedio->id }}" hidden>
+                                <label for="">{{ $remedio->nome }}</label>
+                                <br>
+                                <div class="parametros-sn-index">
+                                    <div class="parametro-sn">
+                                        <label for="">Tomou</label>
+                                        <input type="radio" name="status[{{ $remedio->id }}]" value="1">
+                                    </div>
+                                    <div class="parametro-sn">
+                                        <label for="">Não tomou</label>
+                                        <input type="radio" name="status[{{ $remedio->id }}]" value="0" checked>
+                                    </div>
+                                </div>
+                            </div>
                         @empty
                             <br>
                         @endforelse
