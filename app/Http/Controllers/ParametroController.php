@@ -75,4 +75,18 @@ class ParametroController extends Controller
                 ->withErrors('Não foi possivel deletar o Parametro.');
         }
     }
+
+    public function delete($id)
+    {
+        try {
+            Parametro::find($id)->delete();
+            return redirect()
+                ->route('index')
+                ->with('status', 'remedio deletado!');
+        } catch (Exception $e) {
+            return redirect()
+                ->route('index')
+                ->withErrors('Não foi possivel deletar o remedio.');
+        }
+    }
 }

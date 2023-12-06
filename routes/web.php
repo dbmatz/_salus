@@ -139,6 +139,7 @@ Route::prefix('parametro')->group(function () {
     Route::get('/{id}/edit', [ParametroController::class, 'edit'])->where('id', '[0-9]+')->name('parametro-edit');
     Route::put('/{id}', [ParametroController::class, 'update'])->where('id', '[0-9]+')->name('parametro-update');
     Route::delete('/{id}', [ParametroController::class, 'destroy'])->where('id', '[0-9]+')->name('parametro-destroy');
+    Route::delete('/{id}', [ParametroController::class, 'delete'])->where('id', '[0-9]+')->name('parametro-delete');
 });
 
 Route::prefix('remedio')->group(function () {
@@ -147,6 +148,7 @@ Route::prefix('remedio')->group(function () {
     Route::get('/{id}/edit', [RemedioController::class, 'edit'])->where('id', '[0-9]+')->name('remedio-edit');
     Route::put('/{id}', [RemedioController::class, 'update'])->where('id', '[0-9]+')->name('remedio-update');
     Route::delete('/{id}', [RemedioController::class, 'destroy'])->where('id', '[0-9]+')->name('remedio-destroy');
+    Route::delete('/{id}', [RemedioController::class, 'delete'])->where('id', '[0-9]+')->name('remedio-delete');
 });
 
 //Route::get('/dashboard', [UsuarioController::class, 'index'])->name('dashboard');

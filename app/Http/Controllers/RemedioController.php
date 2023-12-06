@@ -64,7 +64,22 @@ class RemedioController extends Controller
     public function destroy($id)
     {
         try {
-            Remedio::where('id', $id)->delete();
+            Remedio::where('id', $id)->destroy();
+            return redirect()
+                ->route('index')
+                ->with('status', 'remedio deletado!');
+        } catch (Exception $e) {
+            return redirect()
+                ->route('index')
+                ->withErrors('Não foi possivel deletar o remedio.');
+        }
+    }
+
+    public function delete($id)
+    {
+        
+        try {
+            Remedio::find($id)->delete();
             return redirect()
                 ->route('index')
                 ->with('status', 'remedio deletado!');
