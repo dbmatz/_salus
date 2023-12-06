@@ -61,8 +61,8 @@
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                                 <a class="dropdown-item" href="{{ route('profile.edit') }}">Conta</a>
                                 <a class="dropdown-item" href="#">Relatório</a>
-                                <a class="dropdown-item" href="{{ route('parametro-create') }}">Novo parâmetro</a>
-                                <a class="dropdown-item" href="{{ route('remedio-create') }}">Novo remédio</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#parametroModal">Novo parâmetro</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#remedioModal">Novo remédio</a>
                                 <a class="dropdown-item">
                                     <form action="/logout" method="POST">
                                         @csrf
@@ -75,6 +75,62 @@
                 </ul>
             </div>
         </nav>
+    </div>
+
+    <div class="modal fade" id="parametroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Novo parâmetro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" action="{{ route('parametro-store') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="nome" name="nome" required>
+                            <br>
+                            <button class="btn btn-primary" type="submit" name="button">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="remedioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Novo remédio</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" action="{{ route('remedio-store') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="nome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="nome" name="nome" required>
+                            <br>
+                            <button class="btn btn-primary" type="submit" name="button">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 
     @if ($errors->any())
