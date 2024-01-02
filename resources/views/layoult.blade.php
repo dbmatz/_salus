@@ -21,7 +21,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Old+Standard+TT&family=Playfair+Display&family=Ubuntu:wght@300&display=swap"
         rel="stylesheet">
-    <title>@yield('tittle')</title>
+    <title>SALUS</title>
 </head>
 
 <style>
@@ -59,8 +59,8 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="{{ route('profile.edit') }}">Conta</a>
-                                <a class="dropdown-item" href="#">Relatório</a>
+                                <a class="dropdown-item" href="/editar">Conta</a>
+                                <a class="dropdown-item" data-toggle="modal" data-target="#relatorioModal">Relatório</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#parametroModal">Novo
                                     parâmetro</a>
                                 <a class="dropdown-item" data-toggle="modal" data-target="#remedioModal">Novo remédio</a>
@@ -98,20 +98,22 @@
                             <button class="btn btn-primary" type="submit" name="button">Salvar</button>
                         </div>
                     </form>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nome</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($parametros as $parametro)
+
+                    @forelse ($parametros as $parametro)
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <tr>
                                     <td>{{ $parametro->nome }}</td>
                                     <th>
                                         <a type="button">
-                                            <form action="{{ route('parametro-delete', $parametro->id) }}" method="POST">
+                                            <form action="{{ route('parametro-delete', $parametro->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-outline-danger"
@@ -127,11 +129,12 @@
                                         </a>
                                     </th>
                                 </tr>
-                            @empty
-                            <th>Nenhum parâmetro cadastrado.</th>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    @empty
+                        <th>Nenhum parâmetro cadastrado.</th>
+                    @endforelse
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -160,20 +163,21 @@
                             <button class="btn btn-primary" type="submit" name="button">Salvar</button>
                         </div>
                     </form>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nome</th>
-                                <th scope="col"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($remedios as $remedio)
+                    @forelse ($remedios as $remedio)
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
                                 <tr>
                                     <td>{{ $remedio->nome }}</td>
                                     <th>
                                         <a type="button">
-                                            <form action="{{ route('remedio-delete', $remedio->id) }}" method="POST">
+                                            <form action="{{ route('remedio-delete', $remedio->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-outline-danger"
@@ -189,11 +193,11 @@
                                         </a>
                                     </th>
                                 </tr>
-                            @empty
-                            <th>Nenhum remédio cadastrado.12</th>
-                            @endforelse
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    @empty
+                        <th>Nenhum remédio cadastrado.</th>
+                    @endforelse
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -202,10 +206,45 @@
         </div>
     </div>
 
+    <div class="modal fade" id="relatorioModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Gerar relatório</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" enctype="multipart/form-data" action="{{ route('dia-relatorio') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="data_inicial" class="form-label">Período Inicial</label>
+                            <input type="date" class="form-control" id="data_inicial" name="data_inicial"
+                                required>
+                            <label for="data_final" class="form-label">Período Final</label>
+                            <input type="date" class="form-control" id="data_final" name="data_final" required value=>
+                            <br>
+                            <button class="btn btn-primary" type="submit" name="button">Salvar</button>
+                        </div>
+                    </form>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @if ($errors->any())
         @foreach ($errors->all() as $error)
-            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                 {{ $error }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         @endforeach
     @endif
@@ -213,6 +252,9 @@
     @if (session('status'))
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('status') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
     @endif
 

@@ -1,7 +1,5 @@
 @extends('layoult')
 
-@section('tittle', 'create-dia')
-
 @section('content')
     <div id="cabecalho">
         <h1>{{ date('d/m/Y', strtotime($dia)) }}</h1>

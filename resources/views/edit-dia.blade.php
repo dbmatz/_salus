@@ -1,7 +1,5 @@
 @extends('layoult')
 
-@section('tittle', 'create-dia')
-
 @section('content')
 
     <div id="cabecalho">

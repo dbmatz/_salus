@@ -9,6 +9,7 @@ use App\Models\Remedio;
 use App\Models\UsuarioParametro;
 use App\Models\UsuarioEmocao;
 use App\Models\UsuarioRemedio;
+use Illuminate\Support\Facades\DB;
 use Auth;
 use Exception;
 use Error;
@@ -19,11 +20,13 @@ class DiaController extends Controller
     {
         if (empty($request->dia)) {
             $dia = date('Y-m-d');
-        } else{
+        } else {
             $dia = $request->dia;
         }
 
-        $usuario_emocao = UsuarioEmocao::where('dia', $dia)->where('usuario_id', Auth::user()->id)->first();
+        $usuario_emocao = UsuarioEmocao::where('dia', $dia)
+            ->where('usuario_id', Auth::user()->id)
+            ->first();
 
         if (!empty($usuario_emocao)) {
             return redirect()->route('dia-edit', ['id' => $usuario_emocao->id]);
@@ -134,5 +137,53 @@ class DiaController extends Controller
         return redirect()
             ->route('index')
             ->with('status', 'dia alterado');
+    }
+
+    public function relatorio(Request $request)
+    {
+        //dd($request);
+        $data_inicial = date('Y-m-d', strtotime($request->data_inicial));
+        $data_final = date('Y-m-d', strtotime($request->data_final));
+
+        $usuario_remedios = DB::table('usuario_remedios')
+            ->where('dia', '<=', $data_final)
+            ->where('dia', '>=', $data_inicial)
+            ->get();
+
+        $usuario_parametros = DB::table('usuario_parametros')
+            ->where('dia', '<=', $data_final)
+            ->where('dia', '>=', $data_inicial)
+            ->get();
+
+        $usuario_emocoes = DB::table('usuario_emocaos')
+            ->where('dia', '<=', $data_final)
+            ->where('dia', '>=', $data_inicial)
+            ->get();
+
+        $relatorio = [];
+
+
+        foreach ($usuario_remedios as $us_rem) {
+            $relatorio[$us_rem->remedio_id] = ""; //cria um mapa só com as chaves, que são o id do remédio 
+        }
+
+        dd($relatorio);
+
+        $tomou = 0;
+            $ntomou = 0;
+            if ($us_rem->status == 1) {
+                $ntomou++;
+            }else{
+                $tomou++;
+            }
+
+            $relatorio = [
+                $us_rem->remedio_id => [
+                    $tomou,
+                    $ntomou
+                ]
+            ];
+
+        dd($relatorio);
     }
 }

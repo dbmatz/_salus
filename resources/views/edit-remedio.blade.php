@@ -1,7 +1,5 @@
 @extends('layoult')
 
-@section('tittle', 'edit-remedio')
-
 @section('content')
 
     <h1>remedio</h1>

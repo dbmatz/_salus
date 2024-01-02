@@ -16,12 +16,11 @@ return new class extends Migration {
             $table->string('imagem');
         });
 
-        DB::table('emocaos')->insert([['id' => 1, 'nome' => 'Feliz', 'imagem' => '/feliz.jpg'],
-        ['id' => 2, 'nome' => 'Triste', 'imagem' => '/triste.jpg'],
-        ['id' => 3, 'nome' => 'Surpreso', 'imagem' => '/surpreso.jpg'],
-        ['id' => 4, 'nome' => 'Bravo', 'imagem' => '/bravo.jpg'],
-        ['id' => 5, 'nome' => 'Neutro', 'imagem' => '/neutro.jpg'],
-        ['id' => 6, 'nome' => 'Sonhador', 'imagem' => '/sonhador.jpg']]
+        DB::table('emocaos')->insert([['id' => 1, 'nome' => 'Feliz', 'imagem' => '/feliz.png'],
+        ['id' => 2, 'nome' => 'Triste', 'imagem' => '/triste.png'],
+        ['id' => 3, 'nome' => 'Bravo', 'imagem' => '/bravo.png'],
+        ['id' => 4, 'nome' => 'Neutro', 'imagem' => '/neutro.png'],
+        ['id' => 5, 'nome' => 'Animado', 'imagem' => '/animado.png']]
     );
     }
 

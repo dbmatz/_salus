@@ -1,7 +1,5 @@
 @extends('layoult')
 
-@section('tittle', 'edit-parametro')
-
 @section('content')
 
     <h1>parametro</h1>

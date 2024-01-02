@@ -1,7 +1,5 @@
 @extends('layoult')
 
-@section('tittle', 'landing')
-
 @section('content')
 
     <br>

@@ -29,7 +29,10 @@ use App\Models\UsuarioRemedio;
 */
 
 Route::get('/', function () {
-    return view('landingPage');
+    return view('landingPage', [
+        'remedios' => [],
+        'parametros' => []
+    ]);
 })->name('landingPage');
 
 Route::get('/dashboard', function () {
@@ -118,6 +121,7 @@ Route::prefix('dia')->group(function () {
     Route::post('/', [DiaController::class, 'store'])->name('dia-store');
     Route::get('/{id}', [DiaController::class, 'edit'])->name('dia-edit')->where('id', '[0-9]+');
     Route::put('/', [DiaController::class, 'update'])->name('dia-update');
+    Route::post('/relatorio', [DiaController::class, 'relatorio'])->name('dia-relatorio');
     //Route::delete('/', [UsuarioEmocaoController::class, 'destroy'])->name('dia-destroy');
 });
 

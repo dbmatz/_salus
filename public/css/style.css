@@ -11,6 +11,10 @@
     flex-direction: column;
 }
 
+.alert {
+    margin-bottom: 0;
+}
+
 #navbarMain {
     display: flex;
     flex-direction: row-reverse;
