@@ -151,11 +151,13 @@ class DiaController extends Controller
 
         $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
 
+        $relatorio = (new DiaController)->graficoPiza($data_inicial, $data_final);
+
         /*$usuario_parametros = DB::table('usuario_parametros')
             ->where('usuario_id', Auth::user()->id)
             ->where('dia', '<=', $data_final)
             ->where('dia', '>=', $data_inicial)
-            ->get();
+            ->get();*/
 
         $usuario_emocoes = DB::table('usuario_emocaos')
             ->where('usuario_id', Auth::user()->id)
@@ -163,7 +165,7 @@ class DiaController extends Controller
             ->where('dia', '>=', $data_inicial)
             ->get();
 
-        foreach ($usuario_emocoes as $us_emo) {
+        /*foreach ($usuario_emocoes as $us_emo) {
             $emocoes_map[$us_emo->emocao_id] = [0]; //cria um mapa de arrays, a chave corresponde ao id da emocao
         }
 
@@ -173,9 +175,12 @@ class DiaController extends Controller
             array_push($emocao, $us_emo->dia); //adiciona no array os dias que essa emoção foi marcada
             $emocoes_map[$us_emo->emocao_id] = $emocao; //insere o array, agora com os valores, de volta no map de acordo com id do remedio
         }*/
+        return view('relatorio', ['lava' => $relatorio[0], 'graficos_pizza' => $relatorio[1], 'parametros' => $parametros, 'remedios' => $remedios]);
+    }
 
-        $lava = new Lavacharts(); // See note below for Laravel
-
+    public function graficoPiza($data_inicial, $data_final)
+    {
+        $lava = new Lavacharts();
         $usuario_remedios = DB::table('usuario_remedios')
             ->where('usuario_id', Auth::user()->id)
             ->where('dia', '<=', $data_final)
@@ -206,7 +211,7 @@ class DiaController extends Controller
             $remedios_map[$us_rem->remedio_id] = $remedio;
         }
 
-        $graphs_name = [];
+        $graficos_pizza = [];
 
         foreach ($remedios_map as $remedio_array) {
             $data = Lava::DataTable();
@@ -214,16 +219,16 @@ class DiaController extends Controller
 
             $data->addRows([['Tomou', $remedio_array[1]], ['Não tomou', $remedio_array[0]]]);
 
-            if (!in_array($remedio_array[3], $graphs_name)) {
+            if (!in_array($remedio_array[3], $graficos_pizza)) {
                 $lava->PieChart($remedio_array[3], $data, [
                     'title' => $remedio_array[3],
                     'pieSliceText' => 'value',
                 ]);
 
-                array_push($graphs_name, $remedio_array[3]);
+                array_push($graficos_pizza, $remedio_array[3]);
             }
         }
 
-        return view('relatorio', ['lava' => $lava, 'nome_graficos' => $graphs_name, 'parametros' => $parametros, 'remedios' => $remedios]);
+        return [$lava, $graficos_pizza];
     }
 }
