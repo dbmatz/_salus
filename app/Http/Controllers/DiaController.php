@@ -144,16 +144,14 @@ class DiaController extends Controller
     public function relatorio(Request $request)
     {
         //dd($request);
-        /*$data_inicial = date('Y-m-d', strtotime($request->data_inicial));
+        $data_inicial = date('Y-m-d', strtotime($request->data_inicial));
         $data_final = date('Y-m-d', strtotime($request->data_final));
 
-        $usuario_remedios = DB::table('usuario_remedios')
-            ->where('usuario_id', Auth::user()->id)
-            ->where('dia', '<=', $data_final)
-            ->where('dia', '>=', $data_inicial)
-            ->get();
+        $parametros = Parametro::all()->where('usuario_id', Auth::user()->id);
 
-        $usuario_parametros = DB::table('usuario_parametros')
+        $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
+
+        /*$usuario_parametros = DB::table('usuario_parametros')
             ->where('usuario_id', Auth::user()->id)
             ->where('dia', '<=', $data_final)
             ->where('dia', '>=', $data_inicial)
@@ -165,21 +163,6 @@ class DiaController extends Controller
             ->where('dia', '>=', $data_inicial)
             ->get();
 
-        foreach ($usuario_remedios as $us_rem) {
-            $remedios_map[$us_rem->remedio_id] = [0, 0, 0]; //cria um mapa de arrays, a chave corresponde ao id do remédio
-        }
-
-        foreach ($usuario_remedios as $us_rem) {
-            $remedio = $remedios_map[$us_rem->remedio_id]; //pega o array pelo id do remedio
-            $remedio[2]++; //incrementa em 1 o index do array q vai ser usado para ver quantos dias esse remédio foi tomado
-            if ($us_rem->status == 1) {
-                $remedio[1]++; //se tiver tomado (verdadeiro) incrementa o array no index de valor 1
-            } else {
-                $remedio[0]++; //se não tiver tomado (falso) incrementa o array no index de valor 0
-            }
-            $remedios_map[$us_rem->remedio_id] = $remedio; //insere o array, agora com os valores, de volta no map de acordo com id do remedio
-        }
-
         foreach ($usuario_emocoes as $us_emo) {
             $emocoes_map[$us_emo->emocao_id] = [0]; //cria um mapa de arrays, a chave corresponde ao id da emocao
         }
@@ -190,38 +173,57 @@ class DiaController extends Controller
             array_push($emocao, $us_emo->dia); //adiciona no array os dias que essa emoção foi marcada
             $emocoes_map[$us_emo->emocao_id] = $emocao; //insere o array, agora com os valores, de volta no map de acordo com id do remedio
         }*/
-        $lava = new Lavacharts();
 
-        // Criação do objeto DataTable
-        $data = $lava->DataTable();
+        $lava = new Lavacharts(); // See note below for Laravel
 
-        $data
-            ->addDateColumn('Day of Month')
-            ->addNumberColumn('Projected')
-            ->addNumberColumn('Official');
+        $usuario_remedios = DB::table('usuario_remedios')
+            ->where('usuario_id', Auth::user()->id)
+            ->where('dia', '<=', $data_final)
+            ->where('dia', '>=', $data_inicial)
+            ->get();
 
-        // Dados aleatórios para exemplo
-        for ($a = 1; $a < 30; $a++) {
-            $rowData = ["2017-4-$a", rand(800, 1000), rand(800, 1000)];
-            $data->addRow($rowData);
+        $remedio_ids = $usuario_remedios
+            ->pluck('remedio_id')
+            ->unique()
+            ->toArray();
+
+        $remedios = DB::table('remedios')
+            ->whereIn('id', $remedio_ids)
+            ->get()
+            ->keyBy('id');
+
+        $remedios_map = [];
+
+        foreach ($usuario_remedios as $us_rem) {
+            $remedio = $remedios_map[$us_rem->remedio_id] ?? [0, 0, 0, null];
+
+            $remedio[2]++;
+            $remedio[1] += $us_rem->status == 1;
+            $remedio[0] += $us_rem->status == 0;
+            $objeto_remedio = $remedios->firstWhere('id', $us_rem->remedio_id);
+            $remedio[3] = $objeto_remedio->nome;
+
+            $remedios_map[$us_rem->remedio_id] = $remedio;
         }
 
-        // Criação do gráfico de linhas
-        $lava->LineChart('Stocks', $data, [
-            'title' => 'Stock Market Trends',
-            'animation' => [
-                'startup' => true,
-                'easing' => 'inAndOut',
-            ],
-            'colors' => ['blue', '#F4C1D8'],
-        ]);
-        $parametros = Parametro::all()->where('usuario_id', Auth::user()->id);
+        $graphs_name = [];
 
-    $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
+        foreach ($remedios_map as $remedio_array) {
+            $data = Lava::DataTable();
+            $data->addStringColumn('Remédios')->addNumberColumn('Tomou');
 
-        // Não é necessário chamar LineChart novamente
+            $data->addRows([['Tomou', $remedio_array[1]], ['Não tomou', $remedio_array[0]]]);
 
-        // Passa a instância principal do Lavacharts para a view
-        return view('relatorio', ['lava' => $lava, 'parametros' => $parametros, 'remedios' => $remedios]);
+            if (!in_array($remedio_array[3], $graphs_name)) {
+                $lava->PieChart($remedio_array[3], $data, [
+                    'title' => $remedio_array[3],
+                    'pieSliceText' => 'value',
+                ]);
+
+                array_push($graphs_name, $remedio_array[3]);
+            }
+        }
+
+        return view('relatorio', ['lava' => $lava, 'nome_graficos' => $graphs_name, 'parametros' => $parametros, 'remedios' => $remedios]);
     }
 }

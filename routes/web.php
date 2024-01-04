@@ -55,6 +55,7 @@ Route::get('/dashboard', function () {
     $mesNome = $mes->format('F');
 
     return view('index', [
+        'lava' => 0,
         'mesNome' => $mesNome,
         'mesNumero' => $mesNumero,
         'parametros' => $parametros,

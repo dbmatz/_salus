@@ -21,9 +21,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Old+Standard+TT&family=Playfair+Display&family=Ubuntu:wght@300&display=swap"
         rel="stylesheet">
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!-- Em seguida, inclua o Lavacharts -->
-    {!! $lava->jsapi() !!}
+    @yield('custom_head')
     <title>SALUS</title>
 </head>
 
@@ -227,7 +227,8 @@
                             <input type="date" class="form-control" id="data_inicial" name="data_inicial"
                                 required>
                             <label for="data_final" class="form-label">Período Final</label>
-                            <input type="date" class="form-control" id="data_final" name="data_final" required value=>
+                            <input type="date" class="form-control" id="data_final" name="data_final" required
+                                value=>
                             <br>
                             <button class="btn btn-primary" type="submit" name="button">Salvar</button>
                         </div>

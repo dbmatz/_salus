@@ -1,12 +1,18 @@
 @extends('layoult')
 
-@section('content')
+@section('custom_head')
+    {!! $lava->jsapi() !!}
+@endsection
 
-<div id="stocks-div" style="width: 100%; height: 400px;"></div>
+@section('content')
+    
 
     <!-- Outras marcações HTML ou conteúdo da página aqui -->
 
     <!-- Inclua o script para renderizar o gráfico -->
-    {!! $lava->render('LineChart', 'Stocks', 'stocks-div') !!}
+    @foreach($nome_graficos as $grafico)
+    <div id="{{$grafico}}" style="width: 100%; height: 400px;"></div>
+    {!! $lava->render('PieChart', $grafico, $grafico) !!}
+    @endforeach
 
 @endsection
