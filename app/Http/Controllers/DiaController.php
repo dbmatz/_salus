@@ -10,6 +10,8 @@ use App\Models\UsuarioParametro;
 use App\Models\UsuarioEmocao;
 use App\Models\UsuarioRemedio;
 use Illuminate\Support\Facades\DB;
+use Khill\Lavacharts\Laravel\LavachartsFacade as Lava;
+use Khill\Lavacharts\Lavacharts;
 use Auth;
 use Exception;
 use Error;
@@ -142,48 +144,84 @@ class DiaController extends Controller
     public function relatorio(Request $request)
     {
         //dd($request);
-        $data_inicial = date('Y-m-d', strtotime($request->data_inicial));
+        /*$data_inicial = date('Y-m-d', strtotime($request->data_inicial));
         $data_final = date('Y-m-d', strtotime($request->data_final));
 
         $usuario_remedios = DB::table('usuario_remedios')
+            ->where('usuario_id', Auth::user()->id)
             ->where('dia', '<=', $data_final)
             ->where('dia', '>=', $data_inicial)
             ->get();
 
         $usuario_parametros = DB::table('usuario_parametros')
+            ->where('usuario_id', Auth::user()->id)
             ->where('dia', '<=', $data_final)
             ->where('dia', '>=', $data_inicial)
             ->get();
 
         $usuario_emocoes = DB::table('usuario_emocaos')
+            ->where('usuario_id', Auth::user()->id)
             ->where('dia', '<=', $data_final)
             ->where('dia', '>=', $data_inicial)
             ->get();
 
-        $relatorio = [];
-
-
         foreach ($usuario_remedios as $us_rem) {
-            $relatorio[$us_rem->remedio_id] = ""; //cria um mapa só com as chaves, que são o id do remédio 
+            $remedios_map[$us_rem->remedio_id] = [0, 0, 0]; //cria um mapa de arrays, a chave corresponde ao id do remédio
         }
 
-        dd($relatorio);
-
-        $tomou = 0;
-            $ntomou = 0;
+        foreach ($usuario_remedios as $us_rem) {
+            $remedio = $remedios_map[$us_rem->remedio_id]; //pega o array pelo id do remedio
+            $remedio[2]++; //incrementa em 1 o index do array q vai ser usado para ver quantos dias esse remédio foi tomado
             if ($us_rem->status == 1) {
-                $ntomou++;
-            }else{
-                $tomou++;
+                $remedio[1]++; //se tiver tomado (verdadeiro) incrementa o array no index de valor 1
+            } else {
+                $remedio[0]++; //se não tiver tomado (falso) incrementa o array no index de valor 0
             }
+            $remedios_map[$us_rem->remedio_id] = $remedio; //insere o array, agora com os valores, de volta no map de acordo com id do remedio
+        }
 
-            $relatorio = [
-                $us_rem->remedio_id => [
-                    $tomou,
-                    $ntomou
-                ]
-            ];
+        foreach ($usuario_emocoes as $us_emo) {
+            $emocoes_map[$us_emo->emocao_id] = [0]; //cria um mapa de arrays, a chave corresponde ao id da emocao
+        }
 
-        dd($relatorio);
+        foreach ($usuario_emocoes as $us_emo) {
+            $emocao = $emocoes_map[$us_emo->emocao_id]; //pega o array pelo id da emocao
+            $emocao[0]++; //incrementa em 1 o index do array q vai ser usado para ver quantos dias esse emocao foi selecionada
+            array_push($emocao, $us_emo->dia); //adiciona no array os dias que essa emoção foi marcada
+            $emocoes_map[$us_emo->emocao_id] = $emocao; //insere o array, agora com os valores, de volta no map de acordo com id do remedio
+        }*/
+        $lava = new Lavacharts();
+
+        // Criação do objeto DataTable
+        $data = $lava->DataTable();
+
+        $data
+            ->addDateColumn('Day of Month')
+            ->addNumberColumn('Projected')
+            ->addNumberColumn('Official');
+
+        // Dados aleatórios para exemplo
+        for ($a = 1; $a < 30; $a++) {
+            $rowData = ["2017-4-$a", rand(800, 1000), rand(800, 1000)];
+            $data->addRow($rowData);
+        }
+
+        // Criação do gráfico de linhas
+        $lava->LineChart('Stocks', $data, [
+            'title' => 'Stock Market Trends',
+            'animation' => [
+                'startup' => true,
+                'easing' => 'inAndOut',
+            ],
+            'colors' => ['blue', '#F4C1D8'],
+        ]);
+        $parametros = Parametro::all()->where('usuario_id', Auth::user()->id);
+
+    $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
+
+        // Não é necessário chamar LineChart novamente
+
+        // Passa a instância principal do Lavacharts para a view
+        return view('relatorio', ['lava' => $lava, 'parametros' => $parametros, 'remedios' => $remedios]);
     }
 }

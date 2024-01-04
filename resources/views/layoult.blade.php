@@ -21,6 +21,9 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Old+Standard+TT&family=Playfair+Display&family=Ubuntu:wght@300&display=swap"
         rel="stylesheet">
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- Em seguida, inclua o Lavacharts -->
+    {!! $lava->jsapi() !!}
     <title>SALUS</title>
 </head>
 
