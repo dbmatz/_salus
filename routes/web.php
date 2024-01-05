@@ -45,7 +45,7 @@ Route::get('/dashboard', function () {
 
     $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
 
-    $usuario_emocaos = UsuarioEmocao::where('usuario_id', Auth::user()->id)->whereMonth('dia', $mesNumero)->get();
+    $usuario_emocaos = UsuarioEmocao::where('usuario_id', Auth::user()->id)->whereMonth('dia', $mesNumero)->orderBy('dia', 'asc')->get();
 
     $usuario_parametros = UsuarioParametro::where('usuario_id', Auth::user()->id)->whereMonth('dia', $mesNumero)->get();
 
