@@ -148,10 +148,10 @@ class DiaController extends Controller
         $data_final = date('Y-m-d', strtotime($request->data_final));
 
         $parametros = Parametro::all()->where('usuario_id', Auth::user()->id);
-
         $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
 
-        $relatorio = (new DiaController)->graficoPiza($data_inicial, $data_final);
+        $relatorio = (new DiaController())->graficoPizza($data_inicial, $data_final, $remedios);
+        $relatorio = (new DiaController())->graficoDias($data_inicial, $data_final, $relatorio);
 
         /*$usuario_parametros = DB::table('usuario_parametros')
             ->where('usuario_id', Auth::user()->id)
@@ -159,26 +159,71 @@ class DiaController extends Controller
             ->where('dia', '>=', $data_inicial)
             ->get();*/
 
+        return view('relatorio', [
+            'data_inicial' => $data_inicial,
+            'data_final' => $data_final,
+            'lava' => $relatorio['lava'],
+            'graficos_pizza' => $relatorio['graficos_pizza'],
+            'parametros' => $parametros,
+            'remedios' => $remedios,
+            'emocoes_map' => $relatorio['emocoes_map'],
+        ]);
+    }
+
+    public function graficoDias($data_inicial, $data_final, $relatorio)
+    {
         $usuario_emocoes = DB::table('usuario_emocaos')
             ->where('usuario_id', Auth::user()->id)
             ->where('dia', '<=', $data_final)
             ->where('dia', '>=', $data_inicial)
             ->get();
 
-        /*foreach ($usuario_emocoes as $us_emo) {
-            $emocoes_map[$us_emo->emocao_id] = [0]; //cria um mapa de arrays, a chave corresponde ao id da emocao
-        }
+        $emocoes = Emocao::all();
+        $emocoes_map = [];
+
+        $sales = $relatorio['lava']->DataTable();
+        $sales->addDateColumn('Date')->addNumberColumn('Orders');
 
         foreach ($usuario_emocoes as $us_emo) {
-            $emocao = $emocoes_map[$us_emo->emocao_id]; //pega o array pelo id da emocao
-            $emocao[0]++; //incrementa em 1 o index do array q vai ser usado para ver quantos dias esse emocao foi selecionada
-            array_push($emocao, $us_emo->dia); //adiciona no array os dias que essa emoção foi marcada
-            $emocoes_map[$us_emo->emocao_id] = $emocao; //insere o array, agora com os valores, de volta no map de acordo com id do remedio
-        }*/
-        return view('relatorio', ['lava' => $relatorio[0], 'graficos_pizza' => $relatorio[1], 'parametros' => $parametros, 'remedios' => $remedios]);
+            $emocao = $emocoes->firstWhere('id', $us_emo->emocao_id);
+
+            $emocoes_map[$emocao->id] = $emocoes_map[$emocao->id] ?? [
+                'id' => $emocao->id,
+                'nome' => $emocao->nome,
+                'image' => $emocao->imagem,
+                'qtd' => 1,
+            ];
+
+            $emocoes_map[$emocao->id]['qtd']++;
+            $sales->addRow([$us_emo->dia, 1]);
+        }
+
+        $relatorio['emocoes_map'] = $emocoes_map;
+
+        $relatorio['lava']->CalendarChart('Dias preenchidos', $sales, [
+            'title' => 'Dias preenchidos',
+            'unusedMonthOutlineColor' => [
+                'stroke' => '#ECECEC',
+                'strokeOpacity' => 0.75,
+                'strokeWidth' => 1,
+            ],
+            'dayOfWeekLabel' => [
+                'color' => '#4f5b0d',
+                'fontSize' => 16,
+                'italic' => true,
+            ],
+            'noDataPattern' => [
+                'color' => '#DDD',
+            ],
+            'colorAxis' => [
+                'colors' => ['#5DC460', 'black'],
+            ],
+        ]);
+
+        return $relatorio;
     }
 
-    public function graficoPiza($data_inicial, $data_final)
+    public function graficoPizza($data_inicial, $data_final, $remedios)
     {
         $lava = new Lavacharts();
         $usuario_remedios = DB::table('usuario_remedios')
@@ -186,16 +231,6 @@ class DiaController extends Controller
             ->where('dia', '<=', $data_final)
             ->where('dia', '>=', $data_inicial)
             ->get();
-
-        $remedio_ids = $usuario_remedios
-            ->pluck('remedio_id')
-            ->unique()
-            ->toArray();
-
-        $remedios = DB::table('remedios')
-            ->whereIn('id', $remedio_ids)
-            ->get()
-            ->keyBy('id');
 
         $remedios_map = [];
 
@@ -229,6 +264,6 @@ class DiaController extends Controller
             }
         }
 
-        return [$lava, $graficos_pizza];
+        return ['lava' => $lava, 'graficos_pizza' => $graficos_pizza];
     }
 }
