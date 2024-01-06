@@ -34,8 +34,6 @@
     }
 </style>
 
-<script src="../b"></script>
-
 <body>
     <div id="navbarMain">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
