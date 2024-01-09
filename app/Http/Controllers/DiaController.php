@@ -12,6 +12,8 @@ use App\Models\UsuarioRemedio;
 use Illuminate\Support\Facades\DB;
 use Khill\Lavacharts\Laravel\LavachartsFacade as Lava;
 use Khill\Lavacharts\Lavacharts;
+use Khill\Lavacharts\DataTables\Formats\DateFormat;
+use Carbon\Carbon;
 use Auth;
 use Exception;
 use Error;
@@ -147,17 +149,17 @@ class DiaController extends Controller
         $data_inicial = date('Y-m-d', strtotime($request->data_inicial));
         $data_final = date('Y-m-d', strtotime($request->data_final));
 
-        $parametros = Parametro::all()->where('usuario_id', Auth::user()->id);
+        $relatorio['lava'] = $lava = new Lavacharts();
+
+        $parametros = DB::table('parametros')
+            ->where('usuario_id', Auth::user()->id)
+            ->orderBy('id', 'asc')
+            ->get();
         $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
 
-        $relatorio = (new DiaController())->graficoPizza($data_inicial, $data_final, $remedios);
+        $relatorio = (new DiaController())->graficoPizza($relatorio, $data_inicial, $data_final, $remedios);
         $relatorio = (new DiaController())->graficoDias($data_inicial, $data_final, $relatorio);
-
-        /*$usuario_parametros = DB::table('usuario_parametros')
-            ->where('usuario_id', Auth::user()->id)
-            ->where('dia', '<=', $data_final)
-            ->where('dia', '>=', $data_inicial)
-            ->get();*/
+        $relatorio = (new DiaController())->graficoParametro($relatorio, $data_final, $data_inicial, $parametros);
 
         return view('relatorio', [
             'data_inicial' => $data_inicial,
@@ -167,7 +169,54 @@ class DiaController extends Controller
             'parametros' => $parametros,
             'remedios' => $remedios,
             'emocoes_map' => $relatorio['emocoes_map'],
+            'graficos_parametro' => $relatorio['graficos_parametro'],
         ]);
+    }
+
+    public function graficoParametro($relatorio, $data_final, $data_inicial, $parametros)
+    {
+        $usuario_parametros = DB::table('usuario_parametros')
+            ->where('usuario_id', Auth::user()->id)
+            ->where('dia', '<=', $data_final)
+            ->where('dia', '>=', $data_inicial)
+            ->orderBy('dia')
+            ->get();
+
+        foreach ($parametros as $parametro) {
+            $parametros_map[$parametro->id] = [];
+        }
+
+        foreach ($usuario_parametros as $us_par) {
+            $array = $parametros_map[$us_par->parametro_id];
+            $parametro = $parametros->firstWhere('id', $us_par->parametro_id);
+            array_push($array, $parametro->nome);
+            array_push($array, $us_par->dia);
+            array_push($array, $us_par->avaliacao);
+            $parametros_map[$us_par->parametro_id] = $array;
+        }
+
+        $graficos_parametro = [];
+
+        foreach ($parametros_map as $parametro) {
+            $data_parametro = $relatorio['lava']->DataTable();
+            $parametro_objeto = $parametros->firstWhere('nome', $parametro[0]);
+            $data_parametro->addDateColumn('Data')->addNumberColumn($parametro_objeto->nome);
+
+            for ($i = 0; $i < count($parametro); $i = $i + 3) {
+                $data_parametro->addRow([Carbon::createFromFormat('Y-m-d', $parametro[$i + 1]), $parametro[$i + 2]]);
+            }
+
+            if (!in_array($parametro[0], $graficos_parametro)) {
+                $relatorio['lava']->LineChart($parametro_objeto->nome, $data_parametro, [
+                    'title' => $parametro_objeto->nome,
+                ]);
+
+                array_push($graficos_parametro, $parametro_objeto->nome);
+            }
+        }
+
+        $relatorio['graficos_parametro'] = $graficos_parametro;
+        return $relatorio;
     }
 
     public function graficoDias($data_inicial, $data_final, $relatorio)
@@ -223,9 +272,8 @@ class DiaController extends Controller
         return $relatorio;
     }
 
-    public function graficoPizza($data_inicial, $data_final, $remedios)
+    public function graficoPizza($relatorio, $data_inicial, $data_final, $remedios)
     {
-        $lava = new Lavacharts();
         $usuario_remedios = DB::table('usuario_remedios')
             ->where('usuario_id', Auth::user()->id)
             ->where('dia', '<=', $data_final)
@@ -249,13 +297,13 @@ class DiaController extends Controller
         $graficos_pizza = [];
 
         foreach ($remedios_map as $remedio_array) {
-            $data = Lava::DataTable();
+            $data = $relatorio['lava']->DataTable();
             $data->addStringColumn('Remédios')->addNumberColumn('Tomou');
 
             $data->addRows([['Tomou', $remedio_array[1]], ['Não tomou', $remedio_array[0]]]);
 
             if (!in_array($remedio_array[3], $graficos_pizza)) {
-                $lava->PieChart($remedio_array[3], $data, [
+                $relatorio['lava']->PieChart($remedio_array[3], $data, [
                     'title' => $remedio_array[3],
                     'pieSliceText' => 'value',
                 ]);
@@ -263,7 +311,8 @@ class DiaController extends Controller
                 array_push($graficos_pizza, $remedio_array[3]);
             }
         }
+        $relatorio['graficos_pizza'] = $graficos_pizza;
 
-        return ['lava' => $lava, 'graficos_pizza' => $graficos_pizza];
+        return $relatorio;
     }
 }
