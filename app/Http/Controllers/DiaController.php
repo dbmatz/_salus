@@ -57,7 +57,7 @@ class DiaController extends Controller
             if ($resposta == 1) {
                 return redirect()
                     ->route('index')
-                    ->withErrors('usuario_parametro naõ salvo');
+                    ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
             }
         }
 
@@ -66,7 +66,7 @@ class DiaController extends Controller
             if ($resposta == 1) {
                 return redirect()
                     ->route('index')
-                    ->withErrors('usuario_remedio naõ salvo');
+                    ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
             }
         }
 
@@ -74,12 +74,12 @@ class DiaController extends Controller
         if ($resposta == 1) {
             return redirect()
                 ->route('index')
-                ->withErrors('usuario_emocao naõ salvo');
+                ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
         }
 
         return redirect()
             ->route('index')
-            ->with('status', 'dia salvo');
+            ->with('status', 'Registro salvo!');
     }
 
     public function edit($id)
@@ -112,35 +112,35 @@ class DiaController extends Controller
     public function update(Request $request)
     {
         if (!empty($request->emocao_id)) {
-            $resposta = (new UsuarioEmocaoController())->store($request); //funcionando
+            $resposta = (new UsuarioEmocaoController())->store($request); 
             if ($resposta == 1) {
                 return redirect()
                     ->route('index')
-                    ->withErrors('usuario_emocao naõ salvo');
+                    ->withErrors('Não foi possível alterar o registro. Tente novamente mais tarde!');
             }
         }
 
         if (!empty($request->status)) {
-            $resposta = (new UsuarioRemedioController())->store($request); //funcionando
+            $resposta = (new UsuarioRemedioController())->store($request); 
             if ($resposta == 1) {
                 return redirect()
                     ->route('index')
-                    ->withErrors('usuario_remedio naõ salvo');
+                    ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
             }
         }
 
         if (!empty($request->avaliacao)) {
-            $resposta = (new UsuarioParametoController())->store($request); //funcionando
+            $resposta = (new UsuarioParametoController())->store($request); 
             if ($resposta == 1) {
                 return redirect()
                     ->route('index')
-                    ->withErrors('usuario_parametro naõ salvo');
+                    ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
             }
         }
 
         return redirect()
             ->route('index')
-            ->with('status', 'dia alterado');
+            ->with('status', 'Dia alterado!');
     }
 
     public function relatorio(Request $request)
