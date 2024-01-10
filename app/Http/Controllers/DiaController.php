@@ -112,7 +112,7 @@ class DiaController extends Controller
     public function update(Request $request)
     {
         if (!empty($request->emocao_id)) {
-            $resposta = (new UsuarioEmocaoController())->store($request); 
+            $resposta = (new UsuarioEmocaoController())->store($request);
             if ($resposta == 1) {
                 return redirect()
                     ->route('index')
@@ -121,7 +121,7 @@ class DiaController extends Controller
         }
 
         if (!empty($request->status)) {
-            $resposta = (new UsuarioRemedioController())->store($request); 
+            $resposta = (new UsuarioRemedioController())->store($request);
             if ($resposta == 1) {
                 return redirect()
                     ->route('index')
@@ -130,7 +130,7 @@ class DiaController extends Controller
         }
 
         if (!empty($request->avaliacao)) {
-            $resposta = (new UsuarioParametoController())->store($request); 
+            $resposta = (new UsuarioParametoController())->store($request);
             if ($resposta == 1) {
                 return redirect()
                     ->route('index')
@@ -145,9 +145,14 @@ class DiaController extends Controller
 
     public function relatorio(Request $request)
     {
-        //dd($request);
         $data_inicial = date('Y-m-d', strtotime($request->data_inicial));
         $data_final = date('Y-m-d', strtotime($request->data_final));
+
+        if ($data_final < $data_inicial) {
+            return redirect()
+                ->route('index')
+                ->withErrors('A data final deve ser depois da inicial! Tente novamente.');
+        }
 
         $relatorio['lava'] = $lava = new Lavacharts();
 
