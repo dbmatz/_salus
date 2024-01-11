@@ -29,7 +29,7 @@
                         <form method="get" enctype="multipart/form-data" action="{{ route('dia-create') }}">
                             @csrf
                             <input type="date" name="dia">
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="submit" class="btn btn-primary">Alterar</button>
                         </form>
                     </div>
                     <div class="modal-footer">

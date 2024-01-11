@@ -7,6 +7,7 @@
 @section('content')
     <div id="cabecalho">
         <h1>{{ date('d/m', strtotime($data_inicial)) }} - {{ date('d/m', strtotime($data_final)) }}</h1>
+        <button type="button" class="btn btn-primary">Imprimir</button>
     </div>
     <div class="create-novo">
 

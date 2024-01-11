@@ -291,3 +291,9 @@ a:hover {
     flex-direction: column;
     margin-right: 8px;
 }
+
+/* relatorio*/
+
+#graficos-emocao {
+    display: flex;
+}
