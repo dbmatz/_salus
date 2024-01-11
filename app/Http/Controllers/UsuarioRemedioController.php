@@ -27,7 +27,6 @@ class UsuarioRemedioController extends Controller
             try {
                 DB::table('usuario_remedios')->updateOrInsert($param, ['status' => $array[$array_keys[$i]]]);
             } catch (Exception $e) {
-                //dd($e->getMessage());
                 return 1;
             }
         }
@@ -42,11 +41,11 @@ class UsuarioRemedioController extends Controller
         } else {
             return redirect()
                 ->route('index')
-                ->withErrors('Não foi possivel encontrar o usuario_remedio.');
+                ->withErrors('Não foi possivel encontrar o registro.');
         }
     }
 
-    /*public function update(Request $request)
+    public function update(Request $request)
     {
         $data = [];
         $array = $request->status;
@@ -70,7 +69,7 @@ class UsuarioRemedioController extends Controller
         }
 
         return 0;
-    }*/
+    }
 
     public function destroy($id)
     {
@@ -78,11 +77,11 @@ class UsuarioRemedioController extends Controller
             UsuarioRemedio::where('id', $id)->delete();
             return redirect()
                 ->route('index')
-                ->with('status', 'usuario_remedio deletado!');
+                ->with('status', 'Registro deletado!');
         } catch (Exception $e) {
             return redirect()
                 ->route('index')
-                ->withErrors('Não foi possivel deletar o usuario_remedio.');
+                ->withErrors('Não foi possivel deletar o registro.');
         }
     }
 }

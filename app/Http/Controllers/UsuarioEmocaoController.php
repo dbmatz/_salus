@@ -34,11 +34,11 @@ class UsuarioEmocaoController extends Controller
         } else {
             return redirect()
                 ->route('index')
-                ->withErrors('Não foi possivel encontrar o usuario_emocao.');
+                ->withErrors('Não foi possivel encontrar o registro.');
         }
     }
 
-    /*public function update(Request $request)
+    public function update(Request $request)
     {
         $usuario_emocao = UsuarioEmocao::where('dia', $request->dia)
             ->where('usuario_id', Auth::user()->id)
@@ -55,7 +55,7 @@ class UsuarioEmocaoController extends Controller
         } catch (Exception $e) {
             return 1;
         }
-    }*/
+    }
 
     public function destroy($id)
     {
@@ -63,11 +63,11 @@ class UsuarioEmocaoController extends Controller
             UsuarioEmocao::where('id', $id)->delete();
             return redirect()
                 ->route('index')
-                ->with('status', 'UsuarioEmocao deletado!');
+                ->with('status', 'Registro deletado!');
         } catch (Exception $e) {
             return redirect()
                 ->route('index')
-                ->withErrors('Não foi possivel deletar o UsuarioEmocao.');
+                ->withErrors('Não foi possivel deletar o registro.');
         }
     }
 }

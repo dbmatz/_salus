@@ -26,9 +26,7 @@ class UsuarioParametoController extends Controller
 
             try {
                 DB::table('usuario_parametros')->updateOrInsert($param, ['avaliacao' => $array[$array_keys[$i]]]);
-                //UsuarioParametro::insert($data);
             } catch (Exception $e) {
-                //dd($e->getMessage());
                 return 1;
             }
         }
@@ -47,11 +45,11 @@ class UsuarioParametoController extends Controller
         } else {
             return redirect()
                 ->route('index')
-                ->withErrors('Não foi possivel encontrar o usuario_parametro.');
+                ->withErrors('Não foi possivel encontrar o registro.');
         }
     }
 
-    /*public function update(Request $request)
+    public function update(Request $request)
     {
         $data = [];
         $array = $request->avaliacao;
@@ -75,7 +73,7 @@ class UsuarioParametoController extends Controller
         }
 
         return 0;
-    }*/
+    }
 
     public function destroy($id)
     {
@@ -83,11 +81,11 @@ class UsuarioParametoController extends Controller
             UsuarioParametro::where('id', $id)->delete();
             return redirect()
                 ->route('index')
-                ->with('status', 'UsuarioParametro deletado!');
+                ->with('status', 'Registro deletado!');
         } catch (Exception $e) {
             return redirect()
                 ->route('index')
-                ->withErrors('Não foi possivel deletar o UsuarioParametro.');
+                ->withErrors('Não foi possivel deletar o registro.');
         }
     }
 }

@@ -9,11 +9,6 @@ use Exception;
 
 class ParametroController extends Controller
 {
-    public function create()
-    {
-        return view('create-parametro');
-    }
-
     public function store(Request $request)
     {
         $parametro = new Parametro();
@@ -24,23 +19,11 @@ class ParametroController extends Controller
             $parametro->save();
             return redirect()
                 ->route('index')
-                ->with('status', 'parametro criada!');
+                ->with('status', 'Parametro criado!');
         } catch (Exception $e) {
             return redirect()
                 ->route('index')
                 ->withErrors('erro. ' . $e);
-        }
-    }
-
-    public function edit($id)
-    {
-        $parametro = Parametro::where('id', $id)->first();
-        if (!empty($parametro)) {
-            return view('edit-parametro', ['parametro' => $parametro]);
-        } else {
-            return redirect()
-                ->route('index')
-                ->withErrors('Não foi possivel encontrar o parametros.');
         }
     }
 
@@ -82,11 +65,11 @@ class ParametroController extends Controller
             Parametro::find($id)->delete();
             return redirect()
                 ->route('index')
-                ->with('status', 'remedio deletado!');
+                ->with('status', 'Parametro deletado!');
         } catch (Exception $e) {
             return redirect()
                 ->route('index')
-                ->withErrors('Não foi possivel deletar o remedio.');
+                ->withErrors('Não foi possivel deletar o Parametro.');
         }
     }
 }

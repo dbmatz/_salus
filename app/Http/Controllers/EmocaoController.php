@@ -35,11 +35,11 @@ class EmocaoController extends Controller
             $emocao->save();
             return redirect()
                 ->route('index')
-                ->with('status', 'Editora criada!');
+                ->with('status', 'Emoção criada!');
         } catch (Exception $e) {
             return redirect()
                 ->route('index')
-                ->withErrors('Não foi possivel salvar a editora.');
+                ->withErrors('Não foi possivel criar a Emoção.');
         }
     }
 }
