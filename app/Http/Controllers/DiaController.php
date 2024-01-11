@@ -10,13 +10,9 @@ use App\Models\UsuarioParametro;
 use App\Models\UsuarioEmocao;
 use App\Models\UsuarioRemedio;
 use Illuminate\Support\Facades\DB;
-use Khill\Lavacharts\Laravel\LavachartsFacade as Lava;
 use Khill\Lavacharts\Lavacharts;
-use Khill\Lavacharts\DataTables\Formats\DateFormat;
 use Carbon\Carbon;
 use Auth;
-use Exception;
-use Error;
 
 class DiaController extends Controller
 {

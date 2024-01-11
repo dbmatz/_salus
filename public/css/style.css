@@ -78,6 +78,7 @@ nav {
     box-shadow: 15px 15px;
     margin: 0 5px 0 5px;
     flex-wrap: wrap;
+    justify-content: space-evenly;
 }
 
 #cards-border {
@@ -296,4 +297,42 @@ a:hover {
 
 #graficos-emocao {
     display: flex;
+}
+
+.corpo {
+    background-color: white;
+    width: auto;
+    height: auto;
+    padding: 1rem;
+    border-radius: 0 0 10px 10px;
+    border: 1px solid lightgray;
+    margin: 0 5px 5px 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+#graficos-emocao{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.emocoes-relatorio{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rel-img{
+    width: 5rem;
+    height: 5rem;
+}
+
+.qtd-emo{
+    font-size: large;
+}
+
+#graficos-remedio{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
 }

@@ -142,6 +142,7 @@ Route::prefix('dia')->group(function () {
         ->where('id', '[0-9]+');
     Route::put('/', [DiaController::class, 'update'])->name('dia-update');
     Route::post('/relatorio', [DiaController::class, 'relatorio'])->name('dia-relatorio');
+    Route::get('/gerar-pdf/{lava}', [DiaController::class, 'gerarPDF'])->name('gerar-pdf');
 });
 
 Route::prefix('parametro')->group(function () {
