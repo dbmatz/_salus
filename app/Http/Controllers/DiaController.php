@@ -175,6 +175,7 @@ class DiaController extends Controller
             'remedios' => $remedios,
             'emocoes_map' => $relatorio['emocoes_map'],
             'graficos_parametro' => $relatorio['graficos_parametro'],
+            'dias_preenchidos' => $relatorio['dias_preenchidos'],
         ]);
     }
 
@@ -234,45 +235,62 @@ class DiaController extends Controller
 
         $emocoes = Emocao::all();
         $emocoes_map = [];
-
-        $sales = $relatorio['lava']->DataTable();
-        $sales->addDateColumn('Date')->addNumberColumn('Orders');
+        $emocoes_dias = [];
+        $anos = [];
 
         foreach ($usuario_emocoes as $us_emo) {
             $emocao = $emocoes->firstWhere('id', $us_emo->emocao_id);
+            $ano = Carbon::createFromFormat('Y-m-d', $us_emo->dia)->year;
 
             $emocoes_map[$emocao->id] = $emocoes_map[$emocao->id] ?? [
                 'id' => $emocao->id,
                 'nome' => $emocao->nome,
                 'image' => $emocao->imagem,
-                'qtd' => 1,
+                'qtd' => 0,
             ];
 
+            $emocoes_dias[$ano] = $emocoes_dias[$ano] ?? [];
+
             $emocoes_map[$emocao->id]['qtd']++;
-            $sales->addRow([$us_emo->dia, 1]);
+            array_push($emocoes_dias[$ano], $us_emo->dia);
+            array_push($anos, $ano);
         }
 
         $relatorio['emocoes_map'] = $emocoes_map;
+        $dias_preenchidos = [];
 
-        $relatorio['lava']->CalendarChart('Dias preenchidos', $sales, [
-            'title' => 'Dias preenchidos',
-            'unusedMonthOutlineColor' => [
-                'stroke' => '#ECECEC',
-                'strokeOpacity' => 0.75,
-                'strokeWidth' => 1,
-            ],
-            'dayOfWeekLabel' => [
-                'color' => '#4f5b0d',
-                'fontSize' => 16,
-                'italic' => true,
-            ],
-            'noDataPattern' => [
-                'color' => '#DDD',
-            ],
-            'colorAxis' => [
-                'colors' => ['#5DC460', 'black'],
-            ],
-        ]);
+        foreach ($anos as $ano) {
+            $dias = $relatorio['lava']->DataTable();
+            $dias->addDateColumn('Date')->addNumberColumn('Orders');
+            foreach ($emocoes_dias[$ano] as $dia) {
+                $dias->addRow([$dia, 1]);
+            }
+            if (!in_array('Dias preenchidos em ' . $ano, $dias_preenchidos)) {
+                $relatorio['lava']->CalendarChart('Dias preenchidos em ' . $ano, $dias, [
+                    'title' => 'Dias preenchidos em ' . $ano,
+                    'unusedMonthOutlineColor' => [
+                        'stroke' => '#ECECEC',
+                        'strokeOpacity' => 0.75,
+                        'strokeWidth' => 1,
+                    ],
+                    'dayOfWeekLabel' => [
+                        'color' => '#4f5b0d',
+                        'fontSize' => 16,
+                        'italic' => true,
+                    ],
+                    'noDataPattern' => [
+                        'color' => '#DDD',
+                    ],
+                    'colorAxis' => [
+                        'colors' => ['#5DC460', 'black'],
+                    ],
+                ]);
+
+                array_push($dias_preenchidos, 'Dias preenchidos em ' . $ano);
+            }
+        }
+
+        $relatorio['dias_preenchidos'] = $dias_preenchidos;
 
         return $relatorio;
     }
