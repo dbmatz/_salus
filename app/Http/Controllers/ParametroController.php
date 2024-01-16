@@ -45,20 +45,6 @@ class ParametroController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
-        try {
-            Parametro::where('id', $id)->delete();
-            return redirect()
-                ->route('index')
-                ->with('status', 'Parametro deletado!');
-        } catch (Exception $e) {
-            return redirect()
-                ->route('index')
-                ->withErrors('Não foi possivel deletar o Parametro.');
-        }
-    }
-
     public function delete($id)
     {
         try {

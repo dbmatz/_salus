@@ -152,11 +152,13 @@ class DiaController extends Controller
 
         $relatorio['lava'] = $lava = new Lavacharts();
 
-        $parametros = DB::table('parametros')
+        $parametros = Parametro::withTrashed()
             ->where('usuario_id', Auth::user()->id)
-            ->orderBy('id', 'asc')
+            ->orderBy('id')
             ->get();
-        $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
+        $remedios = Remedio::withTrashed()
+            ->where('usuario_id', Auth::user()->id)
+            ->get();
 
         $relatorio = (new DiaController())->graficoPizza($relatorio, $data_inicial, $data_final, $remedios);
         $relatorio = (new DiaController())->graficoDias($data_inicial, $data_final, $relatorio);
@@ -199,21 +201,23 @@ class DiaController extends Controller
 
         $graficos_parametro = [];
 
-        foreach ($parametros_map as $parametro) {
-            $data_parametro = $relatorio['lava']->DataTable();
-            $parametro_objeto = $parametros->firstWhere('nome', $parametro[0]);
-            $data_parametro->addDateColumn('Data')->addNumberColumn($parametro_objeto->nome);
+        foreach ($parametros_map as $parametro_ind) {
+            if (!empty($parametro_ind)) {
+                $data_parametro = $relatorio['lava']->DataTable();
+                $parametro_objeto = $parametros->firstWhere('nome', $parametro_ind[0]);
+                $data_parametro->addDateColumn('Data')->addNumberColumn($parametro_objeto->nome);
 
-            for ($i = 0; $i < count($parametro); $i = $i + 3) {
-                $data_parametro->addRow([Carbon::createFromFormat('Y-m-d', $parametro[$i + 1]), $parametro[$i + 2]]);
-            }
+                for ($i = 0; $i < count($parametro_ind); $i = $i + 3) {
+                    $data_parametro->addRow([Carbon::createFromFormat('Y-m-d', $parametro_ind[$i + 1]), $parametro_ind[$i + 2]]);
+                }
 
-            if (!in_array($parametro[0], $graficos_parametro)) {
-                $relatorio['lava']->LineChart($parametro_objeto->nome, $data_parametro, [
-                    'title' => $parametro_objeto->nome,
-                ]);
+                if (!in_array($parametro_ind[0], $graficos_parametro)) {
+                    $relatorio['lava']->LineChart($parametro_objeto->nome, $data_parametro, [
+                        'title' => $parametro_objeto->nome,
+                    ]);
 
-                array_push($graficos_parametro, $parametro_objeto->nome);
+                    array_push($graficos_parametro, $parametro_objeto->nome);
+                }
             }
         }
 

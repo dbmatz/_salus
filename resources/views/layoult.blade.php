@@ -98,15 +98,14 @@
                             <button class="btn btn-primary" type="submit" name="button">Salvar</button>
                         </div>
                     </form>
-
-                    @forelse ($parametros as $parametro)
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nome</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        @forelse ($parametros as $parametro)
                             <tbody>
                                 <tr>
                                     <td>{{ $parametro->nome }}</td>
@@ -129,11 +128,10 @@
                                         </a>
                                     </th>
                                 </tr>
-                            </tbody>
-                        </table>
-                    @empty
-                        <th>Nenhum parâmetro cadastrado.</th>
-                    @endforelse
+                        </tbody> @empty
+                            <th>Nenhum parâmetro cadastrado.</th>
+                        @endforelse
+                    </table>
 
                 </div>
                 <div class="modal-footer">
@@ -163,14 +161,14 @@
                             <button class="btn btn-primary" type="submit" name="button">Salvar</button>
                         </div>
                     </form>
-                    @forelse ($remedios as $remedio)
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nome</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            </thead>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nome</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        @forelse ($remedios as $remedio)
                             <tbody>
                                 <tr>
                                     <td>{{ $remedio->nome }}</td>
@@ -194,10 +192,11 @@
                                     </th>
                                 </tr>
                             </tbody>
-                        </table>
-                    @empty
-                        <th>Nenhum remédio cadastrado.</th>
-                    @endforelse
+
+                        @empty
+                            <th>Nenhum remédio cadastrado.</th>
+                        @endforelse
+                    </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

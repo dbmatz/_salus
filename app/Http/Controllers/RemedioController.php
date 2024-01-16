@@ -27,18 +27,6 @@ class RemedioController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-        $remedio = Remedio::where('id', $id)->first();
-        if (!empty($remedio)) {
-            return view('edit-remedio', ['remedio' => $remedio]);
-        } else {
-            return redirect()
-                ->route('index')
-                ->withErrors('Não foi possivel encontrar o remédio.');
-        }
-    }
-
     public function update(Request $request, $id)
     {
         $data = [
@@ -53,20 +41,6 @@ class RemedioController extends Controller
             return redirect()
                 ->route('index')
                 ->withErrors('Não foi possivel alterar o remédio.');
-        }
-    }
-
-    public function destroy($id)
-    {
-        try {
-            Remedio::where('id', $id)->destroy();
-            return redirect()
-                ->route('index')
-                ->with('status', 'Remédio deletado!');
-        } catch (Exception $e) {
-            return redirect()
-                ->route('index')
-                ->withErrors('Não foi possivel deletar o remédio.');
         }
     }
 
