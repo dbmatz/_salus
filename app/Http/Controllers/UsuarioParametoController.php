@@ -27,7 +27,9 @@ class UsuarioParametoController extends Controller
             try {
                 DB::table('usuario_parametros')->updateOrInsert($param, ['avaliacao' => $array[$array_keys[$i]]]);
             } catch (Exception $e) {
-                return 1;
+                redirect()
+                    ->route('index')
+                    ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
             }
         }
         return 0;
@@ -78,7 +80,7 @@ class UsuarioParametoController extends Controller
     public function destroy($id)
     {
         try {
-            UsuarioParametro::where('id', $id)->delete();
+            UsuarioParametro::where('id', $id)->destroy();
             return redirect()
                 ->route('index')
                 ->with('status', 'Registro deletado!');

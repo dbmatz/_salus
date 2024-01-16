@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Exceptions\CustomException;
 use App\Models\Parametro;
 use App\Models\Emocao;
 use App\Models\Remedio;
@@ -50,27 +51,10 @@ class DiaController extends Controller
     {
         if (!empty($request->avaliacao)) {
             $resposta = (new UsuarioParametoController())->store($request);
-            if ($resposta == 1) {
-                return redirect()
-                    ->route('index')
-                    ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
-            }
-        }
-
-        if (!empty($request->status)) {
+        } elseif (!empty($request->status)) {
             $resposta = (new UsuarioRemedioController())->store($request);
-            if ($resposta == 1) {
-                return redirect()
-                    ->route('index')
-                    ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
-            }
-        }
-
-        $resposta = (new UsuarioEmocaoController())->store($request);
-        if ($resposta == 1) {
-            return redirect()
-                ->route('index')
-                ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
+        } elseif (!empty($request->emocao_id)) {
+            $resposta = (new UsuarioEmocaoController())->store($request);
         }
 
         return redirect()
@@ -109,29 +93,10 @@ class DiaController extends Controller
     {
         if (!empty($request->emocao_id)) {
             $resposta = (new UsuarioEmocaoController())->store($request);
-            if ($resposta == 1) {
-                return redirect()
-                    ->route('index')
-                    ->withErrors('Não foi possível alterar o registro. Tente novamente mais tarde!');
-            }
-        }
-
-        if (!empty($request->status)) {
+        } elseif (!empty($request->status)) {
             $resposta = (new UsuarioRemedioController())->store($request);
-            if ($resposta == 1) {
-                return redirect()
-                    ->route('index')
-                    ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
-            }
-        }
-
-        if (!empty($request->avaliacao)) {
+        } elseif (!empty($request->avaliacao)) {
             $resposta = (new UsuarioParametoController())->store($request);
-            if ($resposta == 1) {
-                return redirect()
-                    ->route('index')
-                    ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
-            }
         }
 
         return redirect()

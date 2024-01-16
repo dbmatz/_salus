@@ -29,6 +29,6 @@ class UsuarioRemedio extends Model
 
     public function remedio(): BelongsTo
     {
-        return $this->belongsTo(Remedio::class);
+        return $this->belongsTo(Remedio::class)->withTrashed();
     }
 }

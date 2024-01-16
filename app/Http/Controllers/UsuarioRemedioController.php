@@ -27,7 +27,9 @@ class UsuarioRemedioController extends Controller
             try {
                 DB::table('usuario_remedios')->updateOrInsert($param, ['status' => $array[$array_keys[$i]]]);
             } catch (Exception $e) {
-                return 1;
+                redirect()
+                    ->route('index')
+                    ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
             }
         }
         return 0;
@@ -74,7 +76,7 @@ class UsuarioRemedioController extends Controller
     public function destroy($id)
     {
         try {
-            UsuarioRemedio::where('id', $id)->delete();
+            UsuarioRemedio::where('id', $id)->destroy();
             return redirect()
                 ->route('index')
                 ->with('status', 'Registro deletado!');

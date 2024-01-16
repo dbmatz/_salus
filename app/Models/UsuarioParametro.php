@@ -29,6 +29,6 @@ class UsuarioParametro extends Model
 
     public function parametro(): BelongsTo
     {
-        return $this->belongsTo(Parametro::class);
+        return $this->belongsTo(Parametro::class)->withTrashed();
     }
 }

@@ -20,8 +20,9 @@ class UsuarioEmocaoController extends Controller
             DB::table('usuario_emocaos')->updateOrInsert($data, ['emocao_id' => $request->emocao_id, 'descricao' => $request->descricao]);
             return 0;
         } catch (Exception $e) {
-            dd($e->getMessage());
-            return 1;
+            redirect()
+                ->route('index')
+                ->withErrors('Não foi possível salvar o registro. Tente novamente mais tarde!');
         }
     }
 
@@ -60,7 +61,7 @@ class UsuarioEmocaoController extends Controller
     public function destroy($id)
     {
         try {
-            UsuarioEmocao::where('id', $id)->delete();
+            UsuarioEmocao::where('id', $id)->destroy();
             return redirect()
                 ->route('index')
                 ->with('status', 'Registro deletado!');
