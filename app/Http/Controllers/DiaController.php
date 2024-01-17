@@ -51,9 +51,9 @@ class DiaController extends Controller
     {
         if (!empty($request->avaliacao)) {
             $resposta = (new UsuarioParametoController())->store($request);
-        } elseif (!empty($request->status)) {
+        } if (!empty($request->status)) {
             $resposta = (new UsuarioRemedioController())->store($request);
-        } elseif (!empty($request->emocao_id)) {
+        } if (!empty($request->emocao_id)) {
             $resposta = (new UsuarioEmocaoController())->store($request);
         }
 
@@ -121,13 +121,32 @@ class DiaController extends Controller
             ->where('usuario_id', Auth::user()->id)
             ->orderBy('id')
             ->get();
+
         $remedios = Remedio::withTrashed()
             ->where('usuario_id', Auth::user()->id)
             ->get();
 
-        $relatorio = (new DiaController())->graficoPizza($relatorio, $data_inicial, $data_final, $remedios);
-        $relatorio = (new DiaController())->graficoDias($data_inicial, $data_final, $relatorio);
-        $relatorio = (new DiaController())->graficoParametro($relatorio, $data_final, $data_inicial, $parametros);
+        $us_emo = UsuarioEmocao::where('usuario_id', Auth::user()->id)
+            ->where('dia', '<=', $data_final)
+            ->where('dia', '>=', $data_inicial)
+            ->first();
+
+        if (!$parametros->isEmpty()) {
+            $relatorio = (new DiaController())->graficoParametro($relatorio, $data_final, $data_inicial, $parametros);
+        } else {
+            $relatorio['graficos_parametro'] = [];
+        }
+        if (!$remedios->isEmpty()) {
+            $relatorio = (new DiaController())->graficoPizza($relatorio, $data_inicial, $data_final, $remedios);
+        } else {
+            $relatorio['graficos_pizza'] = [];
+        }
+        if(!$us_emo == null){
+            $relatorio = (new DiaController())->graficoDias($data_inicial, $data_final, $relatorio);
+        }else{
+            $relatorio['emocoes_map'] = [];
+            $relatorio['dias_preenchidos'] = [];
+        }
 
         return view('relatorio', [
             'data_inicial' => $data_inicial,

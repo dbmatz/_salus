@@ -46,6 +46,7 @@
             @method('PUT')
             <input type="date" name="dia" value="{{ $dia }}" hidden>
             <div class="mb-3">
+                <p>Como você está se sentindo hoje?</p>
                 <div id="emocoes-main">
                     @foreach ($emocoes as $emocao)
                         <div class="emocao">

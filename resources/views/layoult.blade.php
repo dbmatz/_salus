@@ -129,7 +129,7 @@
                                     </th>
                                 </tr>
                         </tbody> @empty
-                            <th>Nenhum parâmetro cadastrado.</th>
+                            <td>Nenhum parâmetro cadastrado.</td>
                         @endforelse
                     </table>
 
@@ -194,7 +194,7 @@
                             </tbody>
 
                         @empty
-                            <th>Nenhum remédio cadastrado.</th>
+                            <td>Nenhum remédio cadastrado.</td>
                         @endforelse
                     </table>
                 </div>

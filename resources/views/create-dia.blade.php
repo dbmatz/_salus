@@ -122,8 +122,8 @@
             <textarea name="descricao" rows="5" cols="175" id="input-descricao"></textarea>
 
             <br>
-            <a class="btn btn-secondary" href="{{ route('index') }}">Voltar</a>
-            <button class="btn btn-info" type="submit" name="button">Salvar</button>
+            <a class="btn btn-info" href="{{ route('index') }}">Voltar</a>
+            <button class="btn btn-primary" type="submit" name="button">Salvar</button>
     </div>
     </form>
     </div>

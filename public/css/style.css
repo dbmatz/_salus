@@ -331,8 +331,24 @@ a:hover {
     font-size: large;
 }
 
-#graficos-remedio{
+#graficos-remedio, #graficos-parametro{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
+}
+
+.empty-graficos{
+    width: auto;
+    text-align: center;
+    display: block;
+}
+.empty-graficos a{
+    color: blue;
+    text-decoration: underline;
+}
+.empty-graficos a:hover{
+    color: black;
+    text-decoration: underline;
+    background-color: #7ACAF8;
+    cursor: pointer;
 }
