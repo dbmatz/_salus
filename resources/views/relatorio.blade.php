@@ -66,5 +66,6 @@
                 @endforelse
             </div>
         </div>
+        <a class="btn btn-info" href="{{ route('index') }}">Voltar</a>
     </div>
 @endsection

@@ -36,8 +36,8 @@ Route::get('/', function () {
 })->name('landingPage');
 
 Route::get('/dashboard', function () {
-    $mesNumero = Carbon::now();
-    $mesNumero = $mesNumero->month;
+    $mesNumero = Carbon::now()->month;
+    $ano = Carbon::now()->year;
 
     $emocoes = Emocao::all();
 
@@ -46,25 +46,28 @@ Route::get('/dashboard', function () {
     $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
 
     $usuario_emocaos = UsuarioEmocao::where('usuario_id', Auth::user()->id)
-        ->whereMonth('dia', $mesNumero)
+        ->where('dia', '<=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-31 00:00:00'))
+        ->where('dia', '>=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-01 00:00:00'))
         ->orderBy('dia', 'asc')
         ->get();
 
     $usuario_parametros = UsuarioParametro::where('usuario_id', Auth::user()->id)
-        ->whereMonth('dia', $mesNumero)
+        ->where('dia', '<=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-31 00:00:00'))
+        ->where('dia', '>=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-01 00:00:00'))
         ->get();
 
     $usuario_remedios = UsuarioRemedio::where('usuario_id', Auth::user()->id)
-        ->whereMonth('dia', $mesNumero)
+        ->where('dia', '<=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-31 00:00:00'))
+        ->where('dia', '>=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-01 00:00:00'))
         ->get();
 
     $mes = Carbon::now();
     $mesNome = $mes->format('F');
 
     return view('index', [
-        'lava' => 0,
         'mesNome' => $mesNome,
         'mesNumero' => $mesNumero,
+        'ano' => $ano,
         'parametros' => $parametros,
         'emocoes' => $emocoes,
         'remedios' => $remedios,
@@ -80,14 +83,23 @@ Route::get('/editar', function () {
     return view('profile.edit', ['user' => Auth::user()]);
 });
 
-Route::get('/{tipo}/{mes}', function ($tipo, $mes) {
+Route::get('/{tipo}/{mes}/{ano}', function ($tipo, $mes, $ano) {
     if ($tipo == 1) {
         $mesNumero = $mes - 1;
     } else {
         $mesNumero = $mes + 1;
     }
 
-    $mesNome = Carbon::createFromDate(2023, $mesNumero, 1);
+    if ($mesNumero == 13 and $tipo == 2) {
+        $ano++;
+        $mesNumero = 1;
+    }
+    if ($mesNumero == 0 and $tipo == 1) {
+        $ano--;
+        $mesNumero = 12;
+    }
+
+    $mesNome = Carbon::createFromDate($ano, $mesNumero, 1);
     $mesNome = $mesNome->format('F');
 
     $emocoes = Emocao::all();
@@ -97,20 +109,25 @@ Route::get('/{tipo}/{mes}', function ($tipo, $mes) {
     $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
 
     $usuario_emocaos = UsuarioEmocao::where('usuario_id', Auth::user()->id)
-        ->whereMonth('dia', $mesNumero)
+        ->where('dia', '<=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-31 00:00:00'))
+        ->where('dia', '>=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-01 00:00:00'))
+        ->orderBy('dia', 'asc')
         ->get();
 
     $usuario_parametros = UsuarioParametro::where('usuario_id', Auth::user()->id)
-        ->whereMonth('dia', $mesNumero)
+        ->where('dia', '<=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-31 00:00:00'))
+        ->where('dia', '>=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-01 00:00:00'))
         ->get();
 
     $usuario_remedios = UsuarioRemedio::where('usuario_id', Auth::user()->id)
-        ->whereMonth('dia', $mesNumero)
+        ->where('dia', '<=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-31 00:00:00'))
+        ->where('dia', '>=', Carbon::createFromFormat('Y-m-d H:i:s', $ano.'-'.$mesNumero.'-01 00:00:00'))
         ->get();
 
     return view('index', [
         'mesNome' => $mesNome,
         'mesNumero' => $mesNumero,
+        'ano' => $ano,
         'parametros' => $parametros,
         'emocoes' => $emocoes,
         'remedios' => $remedios,
