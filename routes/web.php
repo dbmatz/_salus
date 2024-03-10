@@ -36,13 +36,26 @@ Route::get('/', function () {
 })->name('landingPage');
 
 Route::get('/dashboard', function () {
+    $meses = [
+        '1' => 'Janeiro',
+        '2' => 'Fevereiro',
+        '3' => 'Março',
+        '4' => 'Abril',
+        '5' => 'Maio',
+        '6' => 'Junho',
+        '7' => 'Julho',
+        '8' => 'Agosto',
+        '9' => 'Setembro',
+        '10' => 'Outubro',
+        '11' => 'Novembro',
+        '12' => 'Dezembro',
+    ];
+
     $mesNumero = Carbon::now()->month;
     $ano = Carbon::now()->year;
 
     $emocoes = Emocao::all();
-
     $parametros = Parametro::all()->where('usuario_id', Auth::user()->id);
-
     $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
 
     $usuario_emocaos = UsuarioEmocao::where('usuario_id', Auth::user()->id)
@@ -62,10 +75,9 @@ Route::get('/dashboard', function () {
         ->get();
 
     $mes = Carbon::now();
-    $mesNome = $mes->format('F');
 
     return view('index', [
-        'mesNome' => $mesNome,
+        'mesNome' => $meses[$mesNumero],
         'mesNumero' => $mesNumero,
         'ano' => $ano,
         'parametros' => $parametros,
@@ -84,6 +96,21 @@ Route::get('/editar', function () {
 });
 
 Route::get('/{tipo}/{mes}/{ano}', function ($tipo, $mes, $ano) {
+    $meses = [
+        '1' => 'Janeiro',
+        '2' => 'Fevereiro',
+        '3' => 'Março',
+        '4' => 'Abril',
+        '5' => 'Maio',
+        '6' => 'Junho',
+        '7' => 'Julho',
+        '8' => 'Agosto',
+        '9' => 'Setembro',
+        '10' => 'Outubro',
+        '11' => 'Novembro',
+        '12' => 'Dezembro',
+    ];
+
     if ($tipo == 1) {
         $mesNumero = $mes - 1;
     } else {
@@ -98,9 +125,6 @@ Route::get('/{tipo}/{mes}/{ano}', function ($tipo, $mes, $ano) {
         $ano--;
         $mesNumero = 12;
     }
-
-    $mesNome = Carbon::createFromDate($ano, $mesNumero, 1);
-    $mesNome = $mesNome->format('F');
 
     $emocoes = Emocao::all();
 
@@ -125,7 +149,7 @@ Route::get('/{tipo}/{mes}/{ano}', function ($tipo, $mes, $ano) {
         ->get();
 
     return view('index', [
-        'mesNome' => $mesNome,
+        'mesNome' => $meses[$mesNumero],
         'mesNumero' => $mesNumero,
         'ano' => $ano,
         'parametros' => $parametros,

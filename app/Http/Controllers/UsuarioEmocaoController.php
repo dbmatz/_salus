@@ -31,7 +31,7 @@ class UsuarioEmocaoController extends Controller
         $usuario_emocao = UsuarioEmocao::where('id', $id)->first();
         $emocoes = Emocao::all();
         if (!empty($usuario_emocao)) {
-            return view('edit-dia', ['usuario_emocao' => $usuario_emocao, 'emocoes' => $emocoes]);
+            return view('Dia.edit', ['usuario_emocao' => $usuario_emocao, 'emocoes' => $emocoes]);
         } else {
             return redirect()
                 ->route('index')

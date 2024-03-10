@@ -13,7 +13,7 @@ class EmocaoController extends Controller
 
     public function create()
     {
-        return view('emocao-create');
+        return view('Emocao.create');
     }
 
     public function store(Request $request)

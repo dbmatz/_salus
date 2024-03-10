@@ -39,7 +39,7 @@ class DiaController extends Controller
 
         $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
 
-        return view('create-dia', [
+        return view('Dia.create', [
             'emocoes' => $emocoes,
             'parametros' => $parametros,
             'remedios' => $remedios,
@@ -78,7 +78,7 @@ class DiaController extends Controller
             ->where('usuario_id', Auth::user()->id);
         $remedios = Remedio::all()->where('usuario_id', Auth::user()->id);
 
-        return view('edit-dia', [
+        return view('Dia.edit', [
             'emocoes' => $emocoes,
             'parametros' => $parametros,
             'remedios' => $remedios,
@@ -148,7 +148,7 @@ class DiaController extends Controller
             $relatorio['dias_preenchidos'] = [];
         }
 
-        return view('relatorio', [
+        return view('Relatorio.relatorio', [
             'data_inicial' => $data_inicial,
             'data_final' => $data_final,
             'lava' => $relatorio['lava'],

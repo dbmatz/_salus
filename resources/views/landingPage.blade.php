@@ -5,7 +5,7 @@
     <br>
 
     <div id="salus-init">
-        <img src="<?php echo asset('css/flor-maracuja.png'); ?>" id="flor-maracuja">
+        <img src="{{ asset('css/flor-maracuja.png') }}" id="flor-maracuja">
         <div id="SALUS">SALUS</div>
     </div>
 

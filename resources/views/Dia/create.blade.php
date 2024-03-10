@@ -109,7 +109,6 @@
                                 </div>
                             </div>
                         </div>
-                        <br>
                     @empty
                     @endforelse
                 </div>
@@ -119,7 +118,7 @@
 
             <label for="">Descreva um pouco do seu dia</label>
             <br>
-            <textarea name="descricao" rows="5" cols="175" id="input-descricao"></textarea>
+            <textarea name="descricao" rows="5" cols="160" id="input-descricao"></textarea>
 
             <br>
             <a class="btn btn-info" href="{{ route('index') }}">Voltar</a>

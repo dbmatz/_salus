@@ -5,10 +5,12 @@
 @endsection
 
 @section('content')
-    <div id="cabecalho">
+    <div id="cabecalho-relatorio">
+        <a href="{{ route('index') }}">Voltar</a>
         <h1>{{ date('d/m', strtotime($data_inicial)) }} - {{ date('d/m', strtotime($data_final)) }}</h1>
+        <a id="imprimir" href="{{ route('index') }}">Imprimir</a>
     </div>
-    <div class="corpo">
+    <div class="corpo-relatorio">
 
         <div id="grafico-dias">
             @forelse ($dias_preenchidos as $dias)
@@ -65,7 +67,6 @@
                             data-toggle="modal" data-target="#remedioModal">Novo remédio</a></p>
                 @endforelse
             </div>
-        </div>
-        <a class="btn btn-info" href="{{ route('index') }}">Voltar</a>
+        </div>        
     </div>
 @endsection

@@ -182,7 +182,7 @@
                 <hr>
 
                 <label for="">Descreva um pouco do seu dia</label>
-                <textarea name="descricao" rows="5" cols="175">{{ $usuario_emocao->descricao }}</textarea>
+                <textarea name="descricao" rows="5" cols="160">{{ $usuario_emocao->descricao }}</textarea>
 
             </div>
             <a class="btn btn-info" href="{{ route('index') }}">Voltar</a>
